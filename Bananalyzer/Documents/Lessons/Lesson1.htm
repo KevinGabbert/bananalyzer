@@ -1,0 +1,957 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 10">
+<meta name=Originator content="Microsoft Word 10">
+<link rel=File-List href="Lesson1_files/filelist.xml">
+<link rel=Edit-Time-Data href="Lesson1_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Lesson 1 – Digital Gates</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Jason Buschman</o:Author>
+  <o:LastAuthor>Jason Buschman</o:LastAuthor>
+  <o:Revision>3</o:Revision>
+  <o:TotalTime>1117</o:TotalTime>
+  <o:LastPrinted>2007-08-30T07:48:00Z</o:LastPrinted>
+  <o:Created>2007-08-30T17:42:00Z</o:Created>
+  <o:LastSaved>2007-08-30T17:44:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>1830</o:Words>
+  <o:Characters>10434</o:Characters>
+  <o:Company>Brainstorm</o:Company>
+  <o:Lines>86</o:Lines>
+  <o:Paragraphs>24</o:Paragraphs>
+  <o:CharactersWithSpaces>12240</o:CharactersWithSpaces>
+  <o:Version>10.3501</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:24.0pt;font-family:Verdana'>Lesson 1 – Digital
+Gates<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>All
+digital components no matter how complex are made up of a few simple logic
+gates. These gates perform Bitwise operations on binary inputs and provide a
+binary output.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>What is all this talk about
+Binary?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>The
+binary numbering system (base 2) uses only two digits to represent numbers.
+These digits are 0 and 1. In the decimal system (base 10) which we all are
+familiar with, the digits used are 0 through 9. You may even be familiar with
+Hexadecimal (base 16) which uses the digits 0 through 9 as well as the letters
+A through F to represent 10 through 15. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>You may
+wonder how you can represent a decimal number by only using 2 different digits.
+To answer this we use the Binary Coded Decimal system (BCD). This system
+combines 0’s and 1’s to represent decimal numbers. These 0’s and 1’s are
+commonly referred to as bits. Looking at the Table 1 below you will see that we
+can represent the decimal values 0 through 15 by using 4 bits.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Notice
+the first row containing the decimal values 8, 4, 2 and 1. These are the
+decimal values each bit is worth. To get these numbers we simply take 2 to the
+power of the position of the bit. So Bit 0 equals 2 to the 0 power or 2^0 = 1.
+Bit 1 equals 2 to the power of 1 or 2^1 = 2. Bits 2 and 3 are 2^2 = 4 and
+2^3=8. You can continue adding bits to the left using this formula to calculate
+their values for representing decimal values over 15.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>What are
+these values for? Well, referring to the rightmost column you can see how we
+use the values we calculated for each bit to combine them to make up decimal
+numbers. For each bit that is a 1 we add its value to the final result. So to
+represent a decimal 0, all bits are 0 which results in 0 + 0 + 0 + 0 = 0. To
+represent a decimal 7, bits 2, 3 and 1 are 1’s which results in 0 + 4 + 2 + 1 =
+7.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>So in
+order for a digital component to use this binary system it needs to be able to
+represent a 0 and a 1. This is accomplished by defining that 0 volts (ground)
+represents a 0 and that +5 Volts (<span class=SpellE>Vcc</span>) represents a
+1. By switching power to a components inputs using 0V and +5V we can send
+numbers to it and by reading the voltages present on the components outputs we
+can receive numbers from it.<o:p></o:p></span></p>
+
+<span style='font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'>4 Bit Binary Coded
+Decimal<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shapetype
+ id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+ path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_i1025" type="#_x0000_t75" style='width:327pt;
+ height:309.75pt'>
+ <v:imagedata src="Lesson1_files/image001.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59044;&#26;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=436 height=413
+src="Lesson1_files/image002.jpg" v:shapes="_x0000_i1025"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'>Table 1<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;
+font-family:Verdana;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Now that we have all these 0’s and
+1’s what can we do with them? <o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>The most
+basic components are called Gates. These gates perform what is known as Bitwise
+operations on the bits we send through the gate and present the result on the
+other side. These gates are represented by Logic Symbols which vary depending
+on the gates function.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1029" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:.3pt;width:69.75pt;height:35.25pt;
+ z-index:-5;mso-position-horizontal:left' wrapcoords="-232 0 -232 21140 21600 21140 21600 0 -232 0">
+ <v:imagedata src="Lesson1_files/image003.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#3900;&#730;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=93 height=47
+src="Lesson1_files/image004.jpg" align=left hspace=12 v:shapes="_x0000_s1029"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>Shown here is the <i
+style='mso-bidi-font-style:normal'>Logic Symbol</i> for a NOT gate. This is the
+simplest of the gates. It has a single input A to feed a bit into and a singe
+output OUT to read a bit from. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>How do we know what comes out when
+we put different bits into the gate?</span></b><span style='font-size:10.0pt;
+font-family:Verdana'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>We refer
+to what is called a <i style='mso-bidi-font-style:normal'>Truth Table</i>. A
+truth table shows all possible input combinations alongside the output each combination
+produces.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Shown
+here is the truth table for a NOT gate. As shown by this table,</span><!--[if gte vml 1]><v:shape
+ id="_x0000_s1030" type="#_x0000_t75" style='position:absolute;margin-left:0;
+ margin-top:0;width:70.5pt;height:52.5pt;z-index:-4;mso-position-horizontal:left;
+ mso-position-horizontal-relative:text;mso-position-vertical-relative:text'
+ wrapcoords="-230 0 -230 21291 21600 21291 21600 0 -230 0">
+ <v:imagedata src="Lesson1_files/image005.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#3900;&#730;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=94 height=70
+src="Lesson1_files/image006.jpg" align=left hspace=12 v:shapes="_x0000_s1030"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'> the output is always the opposite
+of the input or OUT is <i style='mso-bidi-font-style:normal'>not</i> A. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>In C
+syntax this would be OUT = !A;<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Truth
+tables are a common fixture in datasheets for components. Being able to understand
+a truth table is invaluable when choosing the right gate. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Thinking in binary hurts my head,
+is there a better way to visualize this?<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1035" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:.4pt;width:1in;height:30.75pt;
+ z-index:-3;mso-position-horizontal:left' wrapcoords="-225 0 -225 21073 21600 21073 21600 0 -225 0">
+ <v:imagedata src="Lesson1_files/image007.png" o:title=""/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=96 height=41
+src="Lesson1_files/image008.jpg" align=left hspace=12 v:shapes="_x0000_s1035"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>If we plot the truth table on a
+graph you can see 0 represented by a low line shown here in blue and a 1
+represented by a high line shown here in red. This allows you to visually see
+the truth table in action. This type of graph is known in component datasheets
+as the <i style='mso-bidi-font-style:normal'>Timing</i> <i style='mso-bidi-font-style:
+normal'>Diagram</i> or <i style='mso-bidi-font-style:normal'>AC Characteristics</i>.
+<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1038" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:0;width:1in;height:30.75pt;
+ z-index:-1;mso-position-horizontal:left;mso-position-vertical:outside'
+ wrapcoords="-225 0 -225 21073 21600 21073 21600 0 -225 0">
+ <v:imagedata src="Lesson1_files/image049.gif" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#24220;!&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=96 height=41
+src="Lesson1_files/image049.gif" align=left hspace=12 v:shapes="_x0000_s1038"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><br style='mso-special-character:
+line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></b></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;
+font-family:Verdana;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Enough symbolism how does this
+work in the real world?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Ok, time
+to put a component to work on your BananaBoard. Since we have covered a NOT gate,
+lets start with an<i style='mso-bidi-font-style:normal'> Integrated Circuit</i>
+(IC or chip) that has a NOT gate in it. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>The 7404
+chip just happens to have six NOT gates in it. The six NOT gates are physically
+arranged inside the 14 pin chip like this:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1026"
+ type="#_x0000_t75" style='width:277.5pt;height:198pt'>
+ <v:imagedata src="Lesson1_files/image011.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=370 height=264
+src="Lesson1_files/image012.jpg" v:shapes="_x0000_i1026"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Note pins
+7 and 14 are labeled GND and VCC. These pins are where you connect power to the
+chip for it to operate. VCC is where you would connect a +5V power source and
+GND is where you would connect to the ground of a power source.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Knowing
+the symbol for a NOT gate you can see that pin 1 is the input for the first NOT
+gate in the chip and pin 2 is the output for the first NOT gate in the chip.
+This type of diagram is known in component datasheets as a <i style='mso-bidi-font-style:
+normal'>Pin out</i>. It is often accompanied by a table listing each pin number
+and a brief description of that pins function.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<span style='font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><u><span style='font-size:10.0pt;font-family:Verdana'>Experiment 1 – Do
+NOT what I say!<o:p></o:p></span></u></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Start a
+new BananaBoard Project and add a 7404 chip to it using the Banana Chip menu
+like this:<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1027"
+ type="#_x0000_t75" style='width:408pt;height:140.25pt'>
+ <v:imagedata src="Lesson1_files/image013.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=544 height=187
+src="Lesson1_files/image014.jpg" v:shapes="_x0000_i1027"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>For this
+first experiment we will use the first NOT gate in the chip. Drag Input 1 and
+Output 1 to the first two empty slots in the Trace pane as shown below.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1028"
+ type="#_x0000_t75" style='width:6in;height:77.25pt'>
+ <v:imagedata src="Lesson1_files/image015.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=576 height=103
+src="Lesson1_files/image016.jpg" v:shapes="_x0000_i1028"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>This will
+plot the results for the first NOT gate. Now save your project as “Experiment 1.bbp”
+somewhere you can find it later.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Now that
+BananaBoard is configured, go to your parts bucket and find a 74HC04 chip (HC
+is a code defining how fast the chip can operate) then plug it into the
+BananaBoard as shown here:<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'>BananaBoard Top<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1029"
+ type="#_x0000_t75" style='width:187.5pt;height:112.5pt'>
+ <v:imagedata src="Lesson1_files/image017.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=250 height=150
+src="Lesson1_files/image018.jpg" v:shapes="_x0000_i1029"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana;color:red'>Note</span></b><span
+style='font-size:10.0pt;font-family:Verdana'>: The notch at one end of the chip
+is used to identify which pin is number 1. Shown here the upper leftmost pin is
+pin number 1. Pin numbers are in sequential order going counter-clockwise from
+pin 1. It is <i style='mso-bidi-font-style:normal'>extremely</i> important you
+place the chip in the same position shown or you could damage the chip and/or
+your BananaBoard. <o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Once you
+have the chip physically placed on the BananaBoard turn on power to the
+BananaBoard and allow it to boot up. Now that the BananaBoard is ready, press
+the<span style='mso-spacerun:yes'>  </span><!--[if gte vml 1]><v:shape id="_x0000_i1030"
+ type="#_x0000_t75" style='width:6.75pt;height:8.25pt'>
+ <v:imagedata src="Lesson1_files/image019.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=9 height=11
+src="Lesson1_files/image020.jpg" v:shapes="_x0000_i1030"><![endif]><span
+style='mso-spacerun:yes'> </span>Run button on the toolbar.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Now I have some lines on the
+graph, what does it mean?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>After
+running your project you will be presented with a screen that looks like this:<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1031"
+ type="#_x0000_t75" style='width:6in;height:129pt'>
+ <v:imagedata src="Lesson1_files/image021.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=576 height=172
+src="Lesson1_files/image022.jpg" v:shapes="_x0000_i1031"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>By
+reading the plot you can see that we fed a 0 into Input 1 and got a 1 from
+Output 1 then on the next cycle we fed a 1 to Input 1 and got a 0 from Output
+1. This follows the logic presented in the truth table for a NOT gate. <o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Where did the 0 and 1 come from to
+send to Input 1?</span></b><span style='font-size:10.0pt;font-family:Verdana'> <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>That is
+specified in the Output Script for that pin. Click on Input 1 and at the bottom
+left of the screen you will see the properties for that row seen here:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1036"
+ type="#_x0000_t75" style='width:356.25pt;height:291pt'>
+ <v:imagedata src="Lesson1_files/image023.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#27156;&#648;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=475 height=388
+src="Lesson1_files/image024.jpg" v:shapes="_x0000_i1036"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Included
+in these properties for a Scripted Output row are the bits that are output on
+each cycle plotted on a single trace graph. Looking at the Script for Input 1 you
+see the following:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1032"
+ type="#_x0000_t75" style='width:352.5pt;height:51pt'>
+ <v:imagedata src="Lesson1_files/image025.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=470 height=68
+src="Lesson1_files/image026.jpg" v:shapes="_x0000_i1032"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>This
+shows us that on the first cycle (cycle 0) a low or 0 will be fed to anything
+connected to the row then on the next cycle (cycle 1) a high or 1 will be fed
+to anything connected to the row followed by 0’s for all remaining cycles. This
+is how data going into a chip is defined by a user.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>You can
+double click any cycle to toggle its state. To see this in action, double click
+the first bit (cycle 0) and the second bit (cycle 1) so that they appear like
+this:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1033" type="#_x0000_t75" style='width:354.75pt;height:50.25pt'>
+ <v:imagedata src="Lesson1_files/image027.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=473 height=67
+src="Lesson1_files/image028.jpg" v:shapes="_x0000_i1033"><![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Press the
+Run button again and your plot will show:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1034"
+ type="#_x0000_t75" style='width:6in;height:130.5pt'>
+ <v:imagedata src="Lesson1_files/image029.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=576 height=174
+src="Lesson1_files/image030.jpg" v:shapes="_x0000_i1034"><![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>As you
+can see Input 1 followed the changes we made to its script and Output 1
+continued to invert the value of Input 1.<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Experiment
+with the script for Input 1 making your own pattern of bits, pressing <span
+class=GramE>Run <span style='mso-spacerun:yes'> </span>and</span> reviewing the
+results shown for Output 1.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;
+font-family:Verdana;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>That was easy! What else can gates
+do?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1026" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:.25pt;width:84pt;height:36pt;
+ z-index:1;mso-position-horizontal:left'>
+ <v:imagedata src="Lesson1_files/image031.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#39836;&#725;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=112 height=48
+src="Lesson1_files/image032.jpg" align=left hspace=12 v:shapes="_x0000_s1026"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>Next is the symbol for what is
+known as an AND gate. Here we have two inputs (A and B) to feed bits in and a
+single output to read a bit from. <br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1027" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:0;width:103.5pt;height:86.25pt;
+ z-index:-7;mso-position-horizontal:left;mso-position-vertical:bottom'
+ wrapcoords="-157 0 -157 21412 21600 21412 21600 0 -157 0">
+ <v:imagedata src="Lesson1_files/image033.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#39836;&#725;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=138 height=115
+src="Lesson1_files/image034.jpg" align=left hspace=12 v:shapes="_x0000_s1027"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>Just like the NOT gate the AND
+gate also has a truth table. Shown by this table, the only way to get a 1 from
+the output of the AND gate is to give both inputs A and B a 1. Any other
+combination will result in the gate outputting a 0. This is why we call this an
+AND gate. Both A <i style='mso-bidi-font-style:normal'>and</i> B must be 1 in
+order to get 1 from the output. This would be the same concept as two soldiers having
+to each turn a key to launch </span>the<span style='font-size:10.0pt;
+font-family:Verdana'> missile. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>In C
+syntax this would be equivalent to OUT = A &amp; B;<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Lets see
+an AND gate in action. The 7408 chip has four AND gates in this physical
+arrangement:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1035"
+ type="#_x0000_t75" style='width:276.75pt;height:199.5pt'>
+ <v:imagedata src="Lesson1_files/image035.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#63420;&#31;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=369 height=266
+src="Lesson1_files/image036.jpg" v:shapes="_x0000_i1035"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Again
+pins 7 and 14 are labeled GND and VCC and are to be connected to a power source
+as explained before.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><span
+style='mso-spacerun:yes'> </span><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>This Pin
+out shows that pin 1 and 2 make up the two inputs for the first AND gate in the
+chip and pin 3 is the output for the first AND gate in the chip. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<span style='font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><u><span style='font-size:10.0pt;font-family:Verdana'>Experiment 2 –
+Can’t we all just get along?<o:p></o:p></span></u></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Create a
+new BananaBoard project and add a 7408 chip to it like this:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1037"
+ type="#_x0000_t75" style='width:405pt;height:139.5pt'>
+ <v:imagedata src="Lesson1_files/image037.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#27156;&#648;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=540 height=186
+src="Lesson1_files/image038.jpg" v:shapes="_x0000_i1037"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>In our
+second experiment we will use the first AND gate in the chip. Drag Input 1A,
+Input 1B and Output 1 to the first three empty slots in the Trace pane as shown
+below:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape id="_x0000_i1038"
+ type="#_x0000_t75" style='width:6in;height:93.75pt'>
+ <v:imagedata src="Lesson1_files/image039.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#62124;&#31;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=576 height=125
+src="Lesson1_files/image040.jpg" v:shapes="_x0000_i1038"><![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>This will
+plot the results for the first AND gate. Save your project as “Experiment
+2.bpp” in the same place you saved Experiment 1.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Back to
+your parts bucket and find a 74HC08 chip and plug it into the BananaBoard like
+before making sure pin 1 is the right location.<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1039" type="#_x0000_t75" style='width:189.75pt;height:110.25pt'>
+ <v:imagedata src="Lesson1_files/image041.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#62124;&#31;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=253 height=147
+src="Lesson1_files/image042.jpg" v:shapes="_x0000_i1039"><![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Power up
+the BananaBoard and when the BananaBoard is ready, press the<span
+style='mso-spacerun:yes'>  </span><!--[if gte vml 1]><v:shape id="_x0000_i1040"
+ type="#_x0000_t75" style='width:6.75pt;height:8.25pt'>
+ <v:imagedata src="Lesson1_files/image019.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#59020;&#30;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=9 height=11
+src="Lesson1_files/image020.jpg" v:shapes="_x0000_i1040"><![endif]><span
+style='mso-spacerun:yes'> </span>Run button on the toolbar.<o:p></o:p></span></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;
+font-family:Verdana;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>Does this mean it’s unanimous?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>You
+should now have the following results in your trace window:<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-size:10.0pt;font-family:Verdana'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1041" type="#_x0000_t75" style='width:431.25pt;height:128.25pt'>
+ <v:imagedata src="Lesson1_files/image043.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#27244;&#646;&#58468;&#19;&#1;"/>
+</v:shape><![endif]--><![if !vml]><img width=575 height=171
+src="Lesson1_files/image044.jpg" v:shapes="_x0000_i1041"><![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Referring
+to the truth table for our AND gate, compare it to the results shown in the
+trace window. Does the output trace show the correct value for each bit value
+combination provided to Inputs 1A and 1B?<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><span
+style='mso-spacerun:yes'> </span><o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>You
+should notice that Output 1 only <span class=GramE>shows</span> a high state
+when both Inputs 1A and 1B are high or 1. This proves that a circuit using an
+AND gate would ensure a unanimous vote to launch the missile. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>Experiment
+with the script for Inputs 1A and 1B again creating your own pattern of bits,
+pressing Run and reviewing the results shown for Output 1. Compare your results
+against the truth table.<o:p></o:p></span></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:10.0pt;
+font-family:Verdana;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+style='font-size:10.0pt;font-family:Verdana'>So there is an AND gate, what
+about an OR gate?<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1028" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:-.3pt;width:83.25pt;
+ height:36pt;z-index:-6;mso-position-horizontal:left' wrapcoords="-195 0 -195 21150 21600 21150 21600 0 -195 0">
+ <v:imagedata src="Lesson1_files/image045.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#39836;&#725;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=111 height=48
+src="Lesson1_files/image046.jpg" align=left hspace=12 v:shapes="_x0000_s1028"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>Why yes, there is an OR gate and
+here is the symbol for it. Similar to an AND gate it has two inputs A and B and
+a single output. To see how an OR gate differs in functionality can be seen by
+examining the truth table.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><!--[if gte vml 1]><v:shape id="_x0000_s1037" type="#_x0000_t75"
+ style='position:absolute;margin-left:0;margin-top:0;width:104.25pt;height:86.25pt;
+ z-index:-2;mso-position-horizontal:left;mso-position-vertical:center'
+ wrapcoords="-155 0 -155 21412 21600 21412 21600 0 -155 0">
+ <v:imagedata src="Lesson1_files/image047.png" o:title="&#19;&#60252;&#19;&#47056;&#30694;&#60704;&#30694;&#65535;&#65535;&#60740;&#30694;&#2328;&#30573;&#39836;&#725;&#58468;&#19;&#1;"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=139 height=115
+src="Lesson1_files/image048.jpg" align=left hspace=12 v:shapes="_x0000_s1037"><![endif]><span
+style='font-size:10.0pt;font-family:Verdana'>Here the truth table shows us that
+either A <i style='mso-bidi-font-style:normal'>or</i> B can be 1 in order to
+get a 1 from OUT. This would be equivalent to either of two soldiers being able
+to push an abort launch button.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>In C
+syntax this would be equivalent to OUT = A | B;<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>&lt;Insert
+OR experiment here&gt;<o:p></o:p></span></p>
+
+<span style='font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal style='margin-left:.5in'><i><span style='font-size:10.0pt;
+font-family:Verdana'><a href="http://en.wikipedia.org/wiki/Bitwise_operation"
+title="Bitwise operation"><span class=GramE>bitwise</span> operation</a></span></i><span
+style='font-size:10.0pt;font-family:Verdana'><o:p></o:p></span></p>
+
+<p><span style='font-size:10.0pt;font-family:Verdana'>Though not directly
+related to the numerical interpretation of binary symbols, sequences of bits
+may be manipulated using <a
+href="http://en.wikipedia.org/wiki/Boolean_operation" title="Boolean operation">Boolean</a>
+<a href="http://en.wikipedia.org/wiki/Logical_operator" title="Logical operator">logical
+operators</a>. When a string of binary symbols is manipulated in this way, it
+is called a <a href="http://en.wikipedia.org/wiki/Bitwise_operation"
+title="Bitwise operation">bitwise operation</a>; the logical operators <a
+href="http://en.wikipedia.org/wiki/Logical_conjunction"
+title="Logical conjunction">AND</a>, <a
+href="http://en.wikipedia.org/wiki/Logical_disjunction"
+title="Logical disjunction">OR</a>, and <a
+href="http://en.wikipedia.org/wiki/Exclusive_disjunction"
+title="Exclusive disjunction">XOR</a> may be performed on corresponding bits in
+two binary numerals provided as input. The logical <a
+href="http://en.wikipedia.org/wiki/Negation" title=Negation>NOT</a> operation
+may be performed on individual bits in a single binary numeral provided as
+input. Sometimes, such operations may be used as arithmetic short-cuts, and may
+have other computational benefits as well. For example, an <a
+href="http://en.wikipedia.org/wiki/Arithmetic_shift" title="Arithmetic shift">arithmetic
+shift</a> left of a binary number is the equivalent of multiplication by a (positive,
+integral) power of 2.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>The
+digital logic <b><span style='color:black;background:#FF9999'>circuits</span></b>
+used in this laboratory are contained in<o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=GramE><span style='font-size:10.0pt;font-family:
+Verdana'>integrated</span></span><span style='font-size:10.0pt;font-family:
+Verdana'> circuit (IC) packages. Each IC is labeled (usually with<o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=GramE><span style='font-size:10.0pt;font-family:
+Verdana'>an</span></span><span style='font-size:10.0pt;font-family:Verdana'>
+SN74xx or SN54xx number) to identify the logic it performs.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'>The
+transistor-transistor <span class=GramE>logic(</span>TTL) IC’s used in this
+laboratory<o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=GramE><span style='font-size:10.0pt;font-family:
+Verdana'>require</span></span><span style='font-size:10.0pt;font-family:Verdana'>
+a 5.0 volt power supply for operation. TTL inputs require a<o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=GramE><span style='font-size:10.0pt;font-family:
+Verdana'>voltage</span></span><span style='font-size:10.0pt;font-family:Verdana'>
+greater than 2 volts to represent a binary 1 and a voltage<o:p></o:p></span></p>
+
+<p class=MsoNormal><span class=GramE><span style='font-size:10.0pt;font-family:
+Verdana'>less</span></span><span style='font-size:10.0pt;font-family:Verdana'>
+than 0.8 volts to represent a binary 0.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span class=SpellE>DeMorgan's</span><span style='font-size:
+10.0pt;font-family:Verdana'><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

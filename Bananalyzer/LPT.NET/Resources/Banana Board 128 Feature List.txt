@@ -1,0 +1,59 @@
+64 Individually Programmable I/O Rows (32 x 2 Breadboard Rows - Supports up to 40 Pin DIP ICs)
+6 Programmable PWM Channels
+8 channel 10-bit A/D Converters with Up to 76.9 kSPS (Up to 15 kSPS at Maximum Resolution)
+1 Programmable TTL RS-232 Serial Interface 
+1 Progammable Scalar Real Time Clock Source
+2 Channel 12-Bit D/A Converters
+4 64-Position 10K Digital Potentiometers
+BananaBus containing 16-Bit Address,8-Bit Data I/O,Read/Write and Reset lines.
+4 Channel SPI Bus
+I2C Bus
+
+
+Parts List
+----------
+QTY	Description
+1	AD5203ARUZ10-ND		IC POT DGTL QUAD 64POS 24TSSOP		3.60
+1  	MCP4922-E/P-ND  	IC DAC 12BIT DUAL W/SPI 14DIP		3.45
+4  	MCP23S17-E/SP-ND  	IC REMOTE I/O EXPANDER 28DIP  	    	1.65
+1	MM74HC138N	 	IC DECODER 3-8LINE EXP 16-DIP		0.50
+1  	MM74HC573N-ND  		IC LATCH TRANSP OCTAL 20-DIP		0.50
+1	ET-AVR Stamp		ATMega128 16AU Stamp		       19.90
+1	64 Row Breadboard						7.95
+----------------------------------------------------------------------------
+								       42.50
+X	Connectors, Case, Mounting Hardware			       20.00
+----------------------------------------------------------------------------
+								       62.50
+	Retail Price						       99.95
+
+
+Epson ecm-a0674-4
+
+When AS2 is set, pins TOSC1 and TOSC2 are disconnected from
+Port C. A crystal can then be connected between the TOSC1 and TOSC2 pins to serve
+as an independent clock source for Timer/Counter2. The Oscillator is optimized for use
+with a 32.768 kHz crystal.
+
+1111 11
+5432 1098 7654 3210
+-------------------
+0010 0000 0000 0000	0x2000
+0011 1111 1111 1111	0x3FFF
+
+1010 0000 0000 0000	0xA000
+1011 1111 1111 1111	0XBFFF
+
+--------------------------------
+
+	   Row		  	Column
+	1 1111 111
+	7 6543 2109	8 7654 3210
+	- ---- ----	- ---- ----
+0	0 0000 0000	0 0000 0000	0	0 1111 1111	255
+255	0 1111 1111	0 0000 0000	0	0 1111 1111	255
+
+256	1 0000 0000	1 0000 0000	256	1 1111 1111	511
+511	1 1111 1111	1 0000 0000	256	1 1111 1111	511
+	
+
