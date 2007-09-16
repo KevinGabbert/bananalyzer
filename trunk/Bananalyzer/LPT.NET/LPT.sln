@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BananaBoard128", "BananaBoard128.vbproj", "{0C47ABEC-0822-4218-A990-35F4B8AFCCC0}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "knob", "..\knob\knob.vbproj", "{22DF159D-8008-44A7-BF9C-C69028CD2036}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BananaBoard", "..\BananaPot\BananaBoard.vbproj", "{F11978F1-D99E-411C-BDE7-ECB020CB3CFC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ATMega128", "..\ATMega128\ATMega128.vbproj", "{480C490C-6B94-424F-81E3-EA58452C5934}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C47ABEC-0822-4218-A990-35F4B8AFCCC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C47ABEC-0822-4218-A990-35F4B8AFCCC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C47ABEC-0822-4218-A990-35F4B8AFCCC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C47ABEC-0822-4218-A990-35F4B8AFCCC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22DF159D-8008-44A7-BF9C-C69028CD2036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22DF159D-8008-44A7-BF9C-C69028CD2036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22DF159D-8008-44A7-BF9C-C69028CD2036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22DF159D-8008-44A7-BF9C-C69028CD2036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11978F1-D99E-411C-BDE7-ECB020CB3CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11978F1-D99E-411C-BDE7-ECB020CB3CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11978F1-D99E-411C-BDE7-ECB020CB3CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11978F1-D99E-411C-BDE7-ECB020CB3CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{480C490C-6B94-424F-81E3-EA58452C5934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480C490C-6B94-424F-81E3-EA58452C5934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480C490C-6B94-424F-81E3-EA58452C5934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480C490C-6B94-424F-81E3-EA58452C5934}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,31 @@
+1	NTE74HC04   	 NTE74HC04 - IC-HI SPEED CMOS INVERTER   	$0.81	$ 0.81
+1	NTE74LS245   	 NTE74LS245 - IC-TTL,BUS TRANSC.3-STATE   	$2.55	$ 2.55
+1	NTE74HC138   	 NTE74HC138 - IC-HI SPEED CMOS DECODER   	$1.41	$ 1.41
+3	NTE74HC573   	 NTE74HC573 - IC-HI SPEED CMOS LATCH   	 	$2.67	$ 8.01
+1	NTE74HC574   	 NTE74HC574 - IC-HI SPEED CMOS FLP FLOP   	$2.67	$ 2.67
+1			 34 Pin Dual Row Female connector 		$1.49	$ 1.49
+1	VE-SD-10N   	 640 PT Solderless Breadboard   		$8.99	$ 8.99
+--------------------------------------------------------------------------------------
+Vectco										$25.93
+
+1	296-1629-5-ND	SN74LS04N IC HEX INVERTER			$0.56	$ 0.56
+1	296-1655-5-ND 	SN74LS245N IC OCT BUS TXCVR			$0.88	$ 0.88
+1	568-1398-5-ND 	74HC138N IC DECODER/DEMUX 3-8 LINE		$0.45	$ 0.45
+3	568-1478-5-ND 	74HC573N IC LATCH OCTAL D 3STATE		$0.50	$ 1.50
+1	568-1480-5-ND 	74HC574N IC FLIP FLOP OCTAL D 3ST		$0.50	$ 0.50
+1			 34 Pin Dual Row Female connector 		$1.49	$ 1.49
+1	TW-E40-1020	Solderless Breadboard 830 Tie Points. 
+			1 Terminal Strip (630 Tie Points) 
+			2 Distribution Strips (100 Tie Points Each)	$6.99	$ 6.99
+
+										$12.37
+										$12.37
+										$ 6.68 Shipping
+--------------------------------------------------------------------------------------
+DigiKey										$31.42
+
+
+
+
+
+

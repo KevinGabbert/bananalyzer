@@ -1,0 +1,12 @@
+
+1 (Yellow) 	RW
+2		DCCLK		PANEL CLOCK
+3		VDD
+4		GND
+5		MEN
+6		VLCD		LCD-drive-circuit power supply, positive side.
+7		FP		VERTICAL SYNCHRONIZATION PULSE
+8		LP		DATA LATCH and/or LINE SYNCHRONIZATION PULSE
+9		DF		
+10		DL3
+11		CP
