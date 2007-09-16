@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="ATMega128, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ATMega128\bin\Debug\ATMega128.dll</HintPath>
+      <HintPath>..\..\ATMega128\bin\Debug\ATMega128.dll</HintPath>
     </Reference>
     <Reference Include="knob, Version=1.0.2740.31929, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
