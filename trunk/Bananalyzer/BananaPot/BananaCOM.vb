@@ -1,5 +1,8 @@
 Public Class BananaCOM
+
     Private WithEvents COMPort As New IO.Ports.SerialPort("COM4", "57600", IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
+
+#Region "Form Variables"
 
     Public Const BB_ProductID = "~" & Chr(0)
     Public Const BB_ADC = "~" & Chr(1)
@@ -25,6 +28,12 @@ Public Class BananaCOM
     Public Project As BBProject
     Public Auto As Boolean = False
 
+    Private RowBitsSet As Boolean = False
+    Private matrix_column As Integer = 0
+
+#End Region
+#Region "Form Events"
+
     Public Sub New()
         COMPort.Open()
     End Sub
@@ -32,7 +41,10 @@ Public Class BananaCOM
         COMPort.Close()
         MyBase.Finalize()
     End Sub
-    Private RowBitsSet As Boolean = False
+
+    Private Sub COMPort_ErrorReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialErrorReceivedEventArgs) Handles COMPort.ErrorReceived
+
+    End Sub
     Private Sub COMPort_DataReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialDataReceivedEventArgs) Handles COMPort.DataReceived
         Static Data As String = ""
         Static OPCode As Byte()
@@ -105,6 +117,10 @@ Public Class BananaCOM
             OPCode = Nothing
         End If
     End Sub
+
+#End Region
+#Region "Functions"
+
     Public Function BitsToBytes(ByVal Bits As String, ByVal Invert As Boolean) As Byte()
         Dim Bytes(Bits.Length / 8) As Byte
         Dim CurrentByte As Byte = 0
@@ -139,6 +155,122 @@ Public Class BananaCOM
         Next
         Return Bytes
     End Function
+
+    Public Sub WriteLEDMatrixRAM(ByVal VideoData As Byte())
+        Dim packet(17) As Byte
+        packet(0) = &H7E    ' ~
+        packet(1) = BB_CMD_WRITE_MATRIX
+        Dim Bits As String = String.Empty
+        Bits &= "0000000000000000"
+        Bits &= "0010011100011000"
+        Bits &= "0010010000100100"
+        Bits &= "0010001000100100"
+        Bits &= "1111000100100100"
+        Bits &= "1010010100100100"
+        Bits &= "1010001000011000"
+        Bits &= "0000000000000000"
+
+        VideoData = BitsToBytes(Bits, True)
+
+        Dim s As New IO.BinaryReader(IO.File.Open(Application.StartupPath & "\Lessons\LED Matrix Driver\test.bmp", IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.Read))
+        'VideoData = s.ReadBytes(64)
+        s.Close()
+        'Array.Copy(VideoData, 0, packet, 2, 16)
+        COMPort.Write(packet, 0, 18)
+
+        'For y As Integer = 0 To 200
+        '    For col As Integer = 0 To 15
+        '        For bite As Integer = 0 To 15
+        '            packet(2 + bite) = packet(2 + bite) << 1
+        '        Next
+        '        COMPort.Write(packet, 0, 18)
+        '    Next
+        '    Bits = "0000110011000000"
+        '    Bits &= "0001001100100000"
+        '    Bits &= "0010000000010000"
+        '    Bits &= "0010000000010000"
+        '    Bits &= "0001000000100000"
+        '    Bits &= "0000100001000000"
+        '    Bits &= "0000010010000000"
+        '    Bits &= "0000001100000000"
+        '    VideoData = BitsToBytes(Bits)
+        '    Array.Copy(VideoData, 0, packet, 2, 16)
+        'Next
+    End Sub
+
+    ' Convert this Long value into a binary string.
+    Public Function LongToBinary(ByVal long_value As Long, _
+        Optional ByVal separate_bytes As Boolean = True) As _
+        String
+        ' Convert into hex.
+        Dim hex_string As String = long_value.ToString("X2")
+
+        '' Zero-pad to a full 16 characters.
+        'hex_string = New String("0", 16 - hex_string.Length) & _
+        '    hex_string
+
+        ' Read the hexadecimal digits
+        ' one at a time from right to left.
+        Dim result_string As String = ""
+        For digit_num As Integer = 0 To 1
+            ' Convert this hexadecimal digit into a
+            ' binary nibble.
+            Dim digit_value As Integer = _
+                Integer.Parse(hex_string.Substring(digit_num, _
+                1), Globalization.NumberStyles.HexNumber)
+
+            ' Convert the value into bits.
+            Dim factor As Integer = 8
+            Dim nibble_string As String = ""
+            For bit As Integer = 0 To 3
+                If digit_value And factor Then
+                    nibble_string &= "1"
+                Else
+                    nibble_string &= "0"
+                End If
+                factor \= 2
+            Next bit
+
+            ' Add the nibble's string to the left of the
+            ' result string.
+            result_string &= nibble_string
+        Next digit_num
+
+        ' Add spaces between bytes if desired.
+        If separate_bytes Then
+            Dim tmp As String = ""
+            For i As Integer = 0 To result_string.Length - 8 _
+                Step 8
+                tmp &= result_string.Substring(i, 8) & " "
+            Next i
+            result_string = tmp.Substring(0, tmp.Length - 1)
+        End If
+
+        ' Return the result.
+        Return result_string
+    End Function
+    Public Sub Set_Pot(ByVal Index As Integer, ByVal value As Integer)
+        Dim packet(3) As Byte
+        packet(0) = &H7E    ' ~
+        packet(1) = BB_CMD_SET_POT
+        packet(2) = Index
+        packet(3) = value
+        COMPort.Write(packet, 0, 4)
+    End Sub
+
+    Public Sub Sample()
+        Dim packet(1) As Byte
+        packet(0) = &H7E    ' ~
+        packet(1) = BB_SAMPLE_START
+        COMPort.Write(packet, 0, 2)
+    End Sub
+    Public Sub ReadSamples()
+        Dim packet(1) As Byte
+        packet(0) = &H7E    ' ~
+        packet(1) = BB_READ_SAMPLES
+        COMPort.Write(packet, 0, 2)
+    End Sub
+
     Public Sub SendRowBits(ByRef Project As BananaBoard.BBProject)
         Dim bbrow As Integer = 0
         For row As Integer = 0 To 31
@@ -174,6 +306,14 @@ Public Class BananaCOM
             End If
         Next
         RaiseEvent RowBitsSetComplete()
+    End Sub
+
+    Public Sub RequestRowConfig()
+        Dim packet(1) As Byte
+        packet(0) = &H7E    ' ~
+        packet(1) = BB_READ_ROW_CONFIG
+
+        COMPort.Write(packet, 0, 2)
     End Sub
     Public Sub SendRowConfig(ByRef Project As BananaBoard.BBProject)
         Dim rows(63) As Byte
@@ -295,128 +435,7 @@ Public Class BananaCOM
         Application.DoEvents()
         'SendRowBits(Project)
     End Sub
-    Public Sub RequestRowConfig()
-        Dim packet(1) As Byte
-        packet(0) = &H7E    ' ~
-        packet(1) = BB_READ_ROW_CONFIG
 
-        COMPort.Write(packet, 0, 2)
-    End Sub
-    Public Sub ReadSamples()
-        Dim packet(1) As Byte
-        packet(0) = &H7E    ' ~
-        packet(1) = BB_READ_SAMPLES
-        COMPort.Write(packet, 0, 2)
-    End Sub
-    Public Sub Sample()
-        Dim packet(1) As Byte
-        packet(0) = &H7E    ' ~
-        packet(1) = BB_SAMPLE_START
-        COMPort.Write(packet, 0, 2)
-    End Sub
-    Public Sub Set_Pot(ByVal Index As Integer, ByVal value As Integer)
-        Dim packet(3) As Byte
-        packet(0) = &H7E    ' ~
-        packet(1) = BB_CMD_SET_POT
-        packet(2) = Index
-        packet(3) = value
-        COMPort.Write(packet, 0, 4)
-    End Sub
-    ' Convert this Long value into a binary string.
-    Public Function LongToBinary(ByVal long_value As Long, _
-        Optional ByVal separate_bytes As Boolean = True) As _
-        String
-        ' Convert into hex.
-        Dim hex_string As String = long_value.ToString("X2")
+#End Region
 
-        '' Zero-pad to a full 16 characters.
-        'hex_string = New String("0", 16 - hex_string.Length) & _
-        '    hex_string
-
-        ' Read the hexadecimal digits
-        ' one at a time from right to left.
-        Dim result_string As String = ""
-        For digit_num As Integer = 0 To 1
-            ' Convert this hexadecimal digit into a
-            ' binary nibble.
-            Dim digit_value As Integer = _
-                Integer.Parse(hex_string.Substring(digit_num, _
-                1), Globalization.NumberStyles.HexNumber)
-
-            ' Convert the value into bits.
-            Dim factor As Integer = 8
-            Dim nibble_string As String = ""
-            For bit As Integer = 0 To 3
-                If digit_value And factor Then
-                    nibble_string &= "1"
-                Else
-                    nibble_string &= "0"
-                End If
-                factor \= 2
-            Next bit
-
-            ' Add the nibble's string to the left of the
-            ' result string.
-            result_string &= nibble_string
-        Next digit_num
-
-        ' Add spaces between bytes if desired.
-        If separate_bytes Then
-            Dim tmp As String = ""
-            For i As Integer = 0 To result_string.Length - 8 _
-                Step 8
-                tmp &= result_string.Substring(i, 8) & " "
-            Next i
-            result_string = tmp.Substring(0, tmp.Length - 1)
-        End If
-
-        ' Return the result.
-        Return result_string
-    End Function
-    Private matrix_column As Integer = 0
-    Public Sub WriteLEDMatrixRAM(ByVal VideoData As Byte())
-        Dim packet(17) As Byte
-        packet(0) = &H7E    ' ~
-        packet(1) = BB_CMD_WRITE_MATRIX
-        Dim Bits As String = String.Empty
-        Bits &= "0000000000000000"
-        Bits &= "0010011100011000"
-        Bits &= "0010010000100100"
-        Bits &= "0010001000100100"
-        Bits &= "1111000100100100"
-        Bits &= "1010010100100100"
-        Bits &= "1010001000011000"
-        Bits &= "0000000000000000"
-
-        VideoData = BitsToBytes(Bits, True)
-
-        Dim s As New IO.BinaryReader(IO.File.Open(Application.StartupPath & "\Lessons\LED Matrix Driver\test.bmp", IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.Read))
-        'VideoData = s.ReadBytes(64)
-        s.Close()
-        'Array.Copy(VideoData, 0, packet, 2, 16)
-        COMPort.Write(packet, 0, 18)
-
-        'For y As Integer = 0 To 200
-        '    For col As Integer = 0 To 15
-        '        For bite As Integer = 0 To 15
-        '            packet(2 + bite) = packet(2 + bite) << 1
-        '        Next
-        '        COMPort.Write(packet, 0, 18)
-        '    Next
-        '    Bits = "0000110011000000"
-        '    Bits &= "0001001100100000"
-        '    Bits &= "0010000000010000"
-        '    Bits &= "0010000000010000"
-        '    Bits &= "0001000000100000"
-        '    Bits &= "0000100001000000"
-        '    Bits &= "0000010010000000"
-        '    Bits &= "0000001100000000"
-        '    VideoData = BitsToBytes(Bits)
-        '    Array.Copy(VideoData, 0, packet, 2, 16)
-        'Next
-    End Sub
-
-    Private Sub COMPort_ErrorReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialErrorReceivedEventArgs) Handles COMPort.ErrorReceived
-
-    End Sub
 End Class
