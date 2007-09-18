@@ -28,6 +28,7 @@ Partial Class ICEditor
         Me.mnuAdd16Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAdd18Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAdd20Pin = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAdd24Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAdd28Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAdd32Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.mnuAdd40Pin = New System.Windows.Forms.ToolStripMenuItem
@@ -52,7 +53,6 @@ Partial Class ICEditor
         Me.imgRowIcons = New System.Windows.Forms.ImageList(Me.components)
         Me.pbTrace = New System.Windows.Forms.PictureBox
         Me.Panel1 = New System.Windows.Forms.Panel
-        Me.mnuAdd24Pin = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStrip1.SuspendLayout()
         CType(Me.ChipPic, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbTrace, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,49 +81,55 @@ Partial Class ICEditor
         'mnuAdd8Pin
         '
         Me.mnuAdd8Pin.Name = "mnuAdd8Pin"
-        Me.mnuAdd8Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd8Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd8Pin.Text = "8 Pin"
         '
         'mnuAdd14Pin
         '
         Me.mnuAdd14Pin.Name = "mnuAdd14Pin"
-        Me.mnuAdd14Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd14Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd14Pin.Text = "14 Pin"
         '
         'mnuAdd16Pin
         '
         Me.mnuAdd16Pin.Name = "mnuAdd16Pin"
-        Me.mnuAdd16Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd16Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd16Pin.Text = "16 Pin"
         '
         'mnuAdd18Pin
         '
         Me.mnuAdd18Pin.Name = "mnuAdd18Pin"
-        Me.mnuAdd18Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd18Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd18Pin.Text = "18 Pin"
         '
         'mnuAdd20Pin
         '
         Me.mnuAdd20Pin.Name = "mnuAdd20Pin"
-        Me.mnuAdd20Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd20Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd20Pin.Text = "20 Pin"
+        '
+        'mnuAdd24Pin
+        '
+        Me.mnuAdd24Pin.Name = "mnuAdd24Pin"
+        Me.mnuAdd24Pin.Size = New System.Drawing.Size(114, 22)
+        Me.mnuAdd24Pin.Text = "24 Pin"
         '
         'mnuAdd28Pin
         '
         Me.mnuAdd28Pin.Name = "mnuAdd28Pin"
-        Me.mnuAdd28Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd28Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd28Pin.Text = "28 Pin"
         '
         'mnuAdd32Pin
         '
         Me.mnuAdd32Pin.Name = "mnuAdd32Pin"
-        Me.mnuAdd32Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd32Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd32Pin.Text = "32 Pin"
         '
         'mnuAdd40Pin
         '
         Me.mnuAdd40Pin.Name = "mnuAdd40Pin"
-        Me.mnuAdd40Pin.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAdd40Pin.Size = New System.Drawing.Size(114, 22)
         Me.mnuAdd40Pin.Text = "40 Pin"
         '
         'OpenToolStripButton
@@ -313,12 +319,6 @@ Partial Class ICEditor
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(734, 70)
         Me.Panel1.TabIndex = 31
-        '
-        'mnuAdd24Pin
-        '
-        Me.mnuAdd24Pin.Name = "mnuAdd24Pin"
-        Me.mnuAdd24Pin.Size = New System.Drawing.Size(152, 22)
-        Me.mnuAdd24Pin.Text = "24 Pin"
         '
         'ICEditor
         '
