@@ -32,7 +32,8 @@ Public Class BananaCOM
     Private matrix_column As Integer = 0
 
 #End Region
-#Region "Form Events"
+
+#Region "Events"
 
     Public Sub New()
         COMPort.Open()
@@ -41,6 +42,10 @@ Public Class BananaCOM
         COMPort.Close()
         MyBase.Finalize()
     End Sub
+
+#End Region
+
+#Region "Event Handlers"
 
     Private Sub COMPort_ErrorReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialErrorReceivedEventArgs) Handles COMPort.ErrorReceived
 
