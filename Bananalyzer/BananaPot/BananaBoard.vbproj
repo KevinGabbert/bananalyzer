@@ -40,10 +40,6 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ATMega128, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ATMega128\bin\Debug\ATMega128.dll</HintPath>
-    </Reference>
     <Reference Include="knob, Version=1.0.2740.31929, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\knob\bin\knob.dll</HintPath>
@@ -160,6 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LED1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ATMega128\ATMega128.vbproj">
+      <Project>{480C490C-6B94-424F-81E3-EA58452C5934}</Project>
+      <Name>ATMega128</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
