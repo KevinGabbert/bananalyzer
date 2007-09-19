@@ -114,7 +114,6 @@ Public Class frmTrace
         Me.Set_Timer()
 
         Me.ResumeLayout()
-
         Me.LoadChips()
     End Sub
 
@@ -1169,41 +1168,23 @@ Public Class frmTrace
 
 #Region "Set Rows"
 
-    Private Sub Set_RowA_ICON(ByVal item As Integer)
+    Private Sub Set_Row_ICON(ByVal icon() As PictureBox, ByVal item As Integer, ByVal top As Integer, ByVal left As Integer)
 
-        RowAICON(item) = New PictureBox()
-        RowAICON(item).Width = 21
-        RowAICON(item).Height = 21
-        RowAICON(item).Top = item * 21 + BreadBoard.Top
-        RowAICON(item).Left = BreadBoard.Left - 21
-        RowAICON(item).Image = ICEditor.imgRowIcons.Images(8)
-        RowAICON(item).SizeMode = PictureBoxSizeMode.CenterImage
-        RowAICON(item).BorderStyle = BorderStyle.None
-        RowAICON(item).Visible = True
-        RowAICON(item).Tag = item + 32
+        icon(item) = New PictureBox()
+        icon(item).Width = 21
+        icon(item).Height = 21
+        icon(item).Top = top
+        icon(item).Left = left
+        icon(item).Image = ICEditor.imgRowIcons.Images(8)
+        icon(item).SizeMode = PictureBoxSizeMode.CenterImage
+        icon(item).BorderStyle = BorderStyle.None
+        icon(item).Visible = True
+        icon(item).Tag = item + 32
 
-        AddHandler RowAICON(item).Paint, AddressOf RowOut_Paint
-        panelBreadboard.Controls.Add(RowAICON(item))
-        RowAICON(item).BringToFront()
+        AddHandler icon(item).Paint, AddressOf RowOut_Paint
+        panelBreadboard.Controls.Add(icon(item))
+        icon(item).BringToFront()
 
-    End Sub
-    Private Sub Set_ROWB_ICON(ByVal item As Integer)
-
-        RowBICON(item) = New PictureBox()
-        RowBICON(item).Width = 21
-        RowBICON(item).Height = 21
-        RowBICON(item).Top = item * 21 + BreadBoard.Top
-        RowBICON(item).Left = BreadBoard.Left + BreadBoard.Width
-        RowBICON(item).SizeMode = PictureBoxSizeMode.CenterImage
-        RowBICON(item).Image = ICEditor.imgRowIcons.Images(8)
-        RowBICON(item).BorderStyle = BorderStyle.None
-        RowBICON(item).Visible = True
-        RowBICON(item).Tag = item + 32
-
-        AddHandler RowBICON(item).Paint, AddressOf RowOut_Paint
-
-        panelBreadboard.Controls.Add(RowBICON(item))
-        RowBICON(item).BringToFront()
     End Sub
 
     Private Sub Set_RowA_Label(ByVal item As Integer)
@@ -1250,16 +1231,15 @@ Public Class frmTrace
 
         panelBreadboard.Controls.Add(ROWBLabel(item))
         ROWBLabel(item).BringToFront()
-        ROWBLabel(item).Tag = item + 32
 
     End Sub
 
     Private Sub Set_RowA_Control()
 
         For y As Integer = 0 To 31
-            Me.Set_RowA_ICON(y)
-            Me.Set_RowA_Label(y)
+            Me.Set_Row_ICON(Me.RowAICON, y, y * 21 + BreadBoard.Top, BreadBoard.Left - 21)
 
+            Me.Set_RowA_Label(y)
             Me.Set_ROWA_Pins(y)
         Next y
 
@@ -1267,12 +1247,17 @@ Public Class frmTrace
     Private Sub Set_RowB_Control()
 
         For y As Integer = 0 To 31
-            Me.Set_ROWB_ICON(y)
+            Me.Set_Row_ICON(Me.RowBICON, y, y * 21 + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
+
             Me.Set_ROWB_Label(y)
             Me.Set_ROWB_Pins(y)
+
+            ' This is actually set in Set_Row_ICON, but it has to be reset here too.
+            ROWBLabel(y).Tag = y + 32
         Next y
 
     End Sub
+
     Private Sub Set_ROWA_Pins(ByVal item As Integer)
         If Project.RowAPins(item) Is Nothing Then Project.RowAPins(item) = New BBPin
         Project.RowAPins(item).Text = ROWALabel(item).Text
@@ -1497,8 +1482,6 @@ Retry:
 
     End Sub
 
-
-
     Private Sub Set_RowOut_Control()
         For y As Integer = 0 To 63
             RowOutICON(y) = New PictureBox
@@ -1618,6 +1601,44 @@ Retry:
 #End Region
 
 End Class
+
+
+'Private Sub Set_RowA_ICON(ByVal item As Integer)
+
+'    RowAICON(item) = New PictureBox()
+'    RowAICON(item).Width = 21
+'    RowAICON(item).Height = 21
+'    RowAICON(item).Top = item * 21 + BreadBoard.Top
+'    RowAICON(item).Left = BreadBoard.Left - 21
+'    RowAICON(item).Image = ICEditor.imgRowIcons.Images(8)
+'    RowAICON(item).SizeMode = PictureBoxSizeMode.CenterImage
+'    RowAICON(item).BorderStyle = BorderStyle.None
+'    RowAICON(item).Visible = True
+'    RowAICON(item).Tag = item + 32
+
+'    AddHandler RowAICON(item).Paint, AddressOf RowOut_Paint
+'    panelBreadboard.Controls.Add(RowAICON(item))
+'    RowAICON(item).BringToFront()
+
+'End Sub
+'Private Sub Set_ROWB_ICON(ByVal item As Integer)
+
+'    RowBICON(item) = New PictureBox()
+'    RowBICON(item).Width = 21
+'    RowBICON(item).Height = 21
+'    RowBICON(item).Top = item * 21 + BreadBoard.Top
+'    RowBICON(item).Left = BreadBoard.Left + BreadBoard.Width
+'    RowBICON(item).SizeMode = PictureBoxSizeMode.CenterImage
+'    RowBICON(item).Image = ICEditor.imgRowIcons.Images(8)
+'    RowBICON(item).BorderStyle = BorderStyle.None
+'    RowBICON(item).Visible = True
+'    RowBICON(item).Tag = item + 32
+
+'    AddHandler RowBICON(item).Paint, AddressOf RowOut_Paint
+
+'    panelBreadboard.Controls.Add(RowBICON(item))
+'    RowBICON(item).BringToFront()
+'End Sub
 
 
 'Private Sub chkClockStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
