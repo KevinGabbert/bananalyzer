@@ -1,7 +1,8 @@
 Public Class BananaPot
     Public Shadows Event Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    'Public Shadows Event MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
     Public Event ValueChanged(ByVal sender As Object, ByVal value As Byte)
+
+#Region "Properties"
 
     Public Overrides Property Text() As String
         Get
@@ -17,6 +18,9 @@ Public Class BananaPot
         End Get
     End Property
 
+#End Region
+#Region "Event Handlers"
+
     Private Sub Knob_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Knob.MouseDoubleClick
         ' RaiseEvent MouseDoubleClick(Me, e)
     End Sub
@@ -26,8 +30,10 @@ Public Class BananaPot
             RaiseEvent ValueChanged(Me, Knob.cur_ang)
         End If
     End Sub
-
     Private Sub KnobLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KnobLabel.Click
         RaiseEvent Click(Me, e)
     End Sub
+
+#End Region
+
 End Class
