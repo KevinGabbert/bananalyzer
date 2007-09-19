@@ -286,8 +286,6 @@ Public Class BBPot
         End Set
     End Property
 
-    Private _BackColor As String = "White" 'TODO: up with this guy? KRG 
-
     Private _PotFunction As String
     <Category("Settings")> _
     <DisplayName("Function")> _
