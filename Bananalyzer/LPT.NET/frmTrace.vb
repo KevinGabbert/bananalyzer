@@ -90,218 +90,32 @@ Public Class frmTrace
 
     Private Sub frmTrace_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Me.SuspendLayout()
-        'pdfDatasheet.LoadFile("f:\code\datasheets\AT93C46 SPI Serial EEPROM.pdf")
-        Me.Text = "Banana Board 128"
-        Me.Height = BreadBoard.Height / 2 + ToolStrip1.Height + panelBitEditor.Height
-        BreadBoard.Top = 0
-        BreadBoard.Left = 79 + 21
-        splitBreadBoard.Top = Me.ToolStrip1.Height
-        splitBreadBoard.Left = 0
-        splitBreadBoard.Height = Me.Height - ToolStrip1.Height - 28
-        splitBreadBoard.SplitterDistance = BreadBoard.Height / 3
-        panelBreadboard.Width = 200 + BreadBoard.Width + 5
-        splitBreadBoard.Width = panelBreadboard.Width + 25
-        'BreadBoard.Image.RotateFlip(RotateFlipType.Rotate180FlipNone)
-        tabs.Left = splitBreadBoard.Width
-        tabs.Top = ToolStrip1.Height
-        tabs.Height = Me.Height - ToolStrip1.Height - 28
-        tabs.Width = Me.Width - tabs.Left
+        Me.Set_frmTrace_Info()
+        Me.Set_Breadboard()
+        Me.Set_Tabs()
 
-        For y As Integer = 0 To 31
-            RowAICON(y) = New PictureBox()
-            RowAICON(y).Width = 21
-            RowAICON(y).Height = 21
-            RowAICON(y).Top = y * 21 + BreadBoard.Top
-            RowAICON(y).Left = BreadBoard.Left - 21
-            RowAICON(y).Image = ICEditor.imgRowIcons.Images(8)
-            RowAICON(y).SizeMode = PictureBoxSizeMode.CenterImage
-            RowAICON(y).BorderStyle = BorderStyle.None
-            RowAICON(y).Visible = True
-            RowAICON(y).Tag = y + 32
-            AddHandler RowAICON(y).Paint, AddressOf RowOut_Paint
-            'AddHandler RowAICON(y).Click, AddressOf LEDA_Click
-            panelBreadboard.Controls.Add(RowAICON(y))
-            RowAICON(y).BringToFront()
-            ROWALabel(y) = New Label()
-            ROWALabel(y).Width = 79
-            ROWALabel(y).Height = 21
-            ROWALabel(y).Left = BreadBoard.Left - 100
-            ROWALabel(y).Top = RowAICON(y).Top + 1
-            ROWALabel(y).Visible = True
-            ROWALabel(y).Text = String.Empty
-            ROWALabel(y).BorderStyle = BorderStyle.None
-            ROWALabel(y).TextAlign = ContentAlignment.MiddleRight
-            ROWALabel(y).BackColor = Color.Transparent
-            ROWALabel(y).ForeColor = Color.Black
-            ROWALabel(y).Tag = y
-            AddHandler ROWALabel(y).DoubleClick, AddressOf ROWA_Click
-            AddHandler ROWALabel(y).MouseDown, AddressOf ROWA_MouseDown
-            AddHandler ROWALabel(y).Paint, AddressOf Row_Paint
-            panelBreadboard.Controls.Add(ROWALabel(y))
-            ROWALabel(y).BringToFront()
-        Next y
-        For y As Integer = 0 To 31
-            RowBICON(y) = New PictureBox()
-            RowBICON(y).Width = 21
-            RowBICON(y).Height = 21
-            RowBICON(y).Top = y * 21 + BreadBoard.Top
-            RowBICON(y).Left = BreadBoard.Left + BreadBoard.Width
-            RowBICON(y).SizeMode = PictureBoxSizeMode.CenterImage
-            RowBICON(y).Image = ICEditor.imgRowIcons.Images(8)
-            RowBICON(y).BorderStyle = BorderStyle.None
-            RowBICON(y).Visible = True
-            RowBICON(y).Tag = y + 32
-            AddHandler RowBICON(y).Paint, AddressOf RowOut_Paint
-            'AddHandler RowBICON(y).Click, AddressOf LEDB_Click
-            panelBreadboard.Controls.Add(RowBICON(y))
-            RowBICON(y).BringToFront()
-            ROWBLabel(y) = New Label()
-            ROWBLabel(y).Width = 79
-            ROWBLabel(y).Left = RowBICON(y).Left + 21
-            ROWBLabel(y).Height = 21
-            ROWBLabel(y).Top = RowBICON(y).Top + 1
-            ROWBLabel(y).Visible = True
-            ROWBLabel(y).Text = String.Empty
-            ROWBLabel(y).BackColor = Color.Transparent
-            ROWBLabel(y).ForeColor = Color.Black
-            ROWBLabel(y).BorderStyle = BorderStyle.None
-            ROWBLabel(y).RightToLeft = Windows.Forms.RightToLeft.No
-            ROWBLabel(y).TextAlign = ContentAlignment.MiddleLeft
-            AddHandler ROWBLabel(y).DoubleClick, AddressOf ROWB_Click
-            AddHandler ROWBLabel(y).MouseDown, AddressOf ROWB_MouseDown
-            AddHandler ROWBLabel(y).Paint, AddressOf Row_Paint
-            panelBreadboard.Controls.Add(ROWBLabel(y))
-            ROWBLabel(y).BringToFront()
-            ROWBLabel(y).Tag = y + 32
-            If Project.RowAPins(y) Is Nothing Then Project.RowAPins(y) = New BBPin
-            If Project.RowBPins(y) Is Nothing Then Project.RowBPins(y) = New BBPin
-            Project.RowAPins(y).Text = ROWALabel(y).Text
-            Project.RowBPins(y).Text = ROWBLabel(y).Text
-        Next y
+        Me.Set_RowA_Control()
+        Me.Set_RowB_Control()
+
         ReDim Project.RowOUTPins(63)
-        For y As Integer = 0 To 63
-            RowOutICON(y) = New PictureBox
-            RowOutICON(y).Width = 21
-            RowOutICON(y).Height = 21
-            RowOutICON(y).Top = y * 21
-            RowOutICON(y).Left = 0
-            RowOutICON(y).SizeMode = PictureBoxSizeMode.CenterImage
-            ' RowOutICON(y).Image = ICEditor.imgRowIcons.Images(8)
-            RowOutICON(y).BorderStyle = BorderStyle.None
 
-            RowOutICON(y).Visible = True
-            RowOutICON(y).Tag = y + 32
-            AddHandler RowOutICON(y).Paint, AddressOf RowOut_Paint
-            'AddHandler RowOutICON(y).Click, AddressOf LEDB_Click
-            PanelTrace.Controls.Add(RowOutICON(y))
-
-            ROWOUTLabel(y) = New Label()
-            ROWOUTLabel(y).Width = 79
-            ROWOUTLabel(y).Left = 21
-            ROWOUTLabel(y).Height = 21
-            ROWOUTLabel(y).Top = y * 21 ' ROWOUTALabel(31).Top + ROWOUTALabel(31).Height + (y * 21)
-            ROWOUTLabel(y).Visible = True
-            ROWOUTLabel(y).Text = "USER " & y + 1
-            ROWOUTLabel(y).BorderStyle = BorderStyle.None
-            ROWOUTLabel(y).TextAlign = ContentAlignment.MiddleLeft
-            ROWOUTLabel(y).BackColor = Color.White
-            ROWOUTLabel(y).ForeColor = Color.Blue
-            ROWOUTLabel(y).Tag = y
-            ROWOUTLabel(y).AllowDrop = True
-            AddHandler ROWOUTLabel(y).Paint, AddressOf RowOut_Paint
-            AddHandler ROWOUTLabel(y).DoubleClick, AddressOf ROWOUT_Click
-            AddHandler ROWOUTLabel(y).MouseDown, AddressOf ROWOUT_MouseDown
-            AddHandler ROWOUTLabel(y).DragOver, AddressOf ROWOUT_DragOver
-            AddHandler ROWOUTLabel(y).DragDrop, AddressOf ROWOUT_DragDrop
-            PanelTrace.Controls.Add(ROWOUTLabel(y))
-            ROWOUTLabel(y).BringToFront()
-        Next y
+        Me.Set_RowOut_Control()
 
         PanelTimer.Left = ROWBLabel(0).Left + ROWBLabel(0).Width + 1
 
+        Me.Set_pb()
+        Me.ClearTrace()
+        Me.Set_DigitSourceLabel()
+        Me.Set_pg()
+        Me.Set_pots()
 
-        pbSelected.Left = ROWOUTLabel(0).Width + 21
-        pbSelected.Top = 0
-        pbSelected.Width = 5120
-        pbSelected.Height = 21 * 64
-        pbSelected.BorderStyle = BorderStyle.None
-        ClearTrace()
-
-        'PanelDigits.Left = 0
-        'PanelDigits.Width = Me.Width
-        'PanelDigits.Top = PanelDAC.Top + PanelDAC.Height
-        'PanelDigits.Height = Me.Height - PanelDigits.Top
-        For y As Integer = 0 To 15
-            DigitSourceLabel(y) = New Label()
-            DigitSourceLabel(y).Width = 14
-            DigitSourceLabel(y).Left = y * 21 + 3
-            DigitSourceLabel(y).Height = PanelADC.Height
-            DigitSourceLabel(y).Top = 0
-            DigitSourceLabel(y).Visible = True
-            DigitSourceLabel(y).Text = "D " & y
-            DigitSourceLabel(y).BorderStyle = BorderStyle.None
-            DigitSourceLabel(y).TextAlign = ContentAlignment.TopCenter
-            DigitSourceLabel(y).BackColor = Color.Silver
-            DigitSourceLabel(y).ForeColor = Color.Blue
-            DigitSourceLabel(y).Tag = y
-            PanelLCD.Controls.Add(DigitSourceLabel(y))
-        Next
-        'AddHandler LCDBits.DragOver, AddressOf LCD_DragOver
-        'AddHandler LCDBits.DragDrop, AddressOf LCD_DragDrop
-
-        'pg.Left = PanelTimer.Left + PanelTimer.Width + 80
-        'pg.Top = BreadBoard.Top
-        pg.Height = splitBreadBoard.Panel2.Height - panelBitEditor.Height - 2
-        pg.Controls(0).Controls(0).BackColor = Color.Transparent
-        pg.Controls(0).Controls(1).BackColor = Color.Transparent
-        AddHandler pg.Controls(0).Paint, AddressOf pg_labelpaint
-        'AddHandler pg.Controls(0).Controls(1).Paint, AddressOf pg_labelpaint
-        'pg.Width = (Me.Width - pg.Left) / 2
-        'pg.BringToFront()
-
-        Dim pot As New BBPot
-
-        pot.Text = "Pot 1"
-        pot.Enabled = False
-        pot.Index = 0
-        Pot0.Tag = pot
-        Pot0.Text = "Pot 1"
-
-        pot = New BBPot
-        pot.Text = "Pot 2"
-        pot.Enabled = False
-        pot.Index = 1
-        Pot1.Tag = pot
-        Pot1.Text = "Pot 2"
-
-        DAC0.Text = "DAC 1"
-        DAC1.Text = "DAC 2"
-
-        ADC0.Text = "ADC 1"
-        ADC1.Text = "ADC 2"
-        ADC2.Text = "ADC 3"
-        ADC3.Text = "ADC 4"
-        ADC4.Text = "ADC 5"
-        ADC5.Text = "ADC 6"
-        ADC6.Text = "ADC 7"
-        ADC7.Text = "ADC 8"
-
-        'RTC.Text = "Real Time Clock"
-        'RTC.fclk_IO = 32768
-
-        Dim Timer1 As New BananaBoard.BananaTimer16
-        'Timer1.Left = RTC.Left
-        'Timer1.Top = RTC.Top + RTC.Height
-        Timer1.fclk_IO = 16000000
-        Timer1.Visible = True
-        AddHandler Timer1.LabelClick, AddressOf RTC_LabelClick
-        PanelTimer.Controls.Add(Timer1)
-        Timer1.BringToFront()
+        Me.Set_DAC()
+        Me.Set_ADC()
+        Me.Set_Timer()
 
         Me.ResumeLayout()
 
-        LoadChips()
+        Me.LoadChips()
     End Sub
 
 #End Region
@@ -974,6 +788,7 @@ Public Class frmTrace
 
     End Sub
     Private Sub mnuSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSave.Click
+
         If SaveFile.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
             Dim s As New XmlSerializer(GetType(BBProject))
             Dim st As New System.IO.StreamWriter(SaveFile.FileName)
@@ -981,8 +796,10 @@ Public Class frmTrace
             st.Close()
             Me.Text = "Banana Board - " & IO.Path.GetFileNameWithoutExtension(SaveFile.FileName)
         End If
+
     End Sub
     Private Sub mnuOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuOpen.Click
+
         cmdRun.Enabled = True
         If OpenProject.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
             For y As Integer = 0 To 7
@@ -1031,10 +848,6 @@ Public Class frmTrace
                     ROWOUTLabel(y).Text = Project.RowOUTPins(y).Text.Replace("~", "")
                     Dim tt As New ToolTip()
                     tt.SetToolTip(RowOutICON(y), Project.RowOUTPins(y).PinFunction)
-                    'If Project.RowOUTPins(y).ParentPin IsNot Nothing Then
-                    '    tt = New ToolTip
-                    '    tt.SetToolTip(ROWOUTLabel(y), "Parent: " & Project.RowOUTPins(y).ParentPin.Text)
-                    'End If
                 Else
                     Project.RowOUTPins(y) = New BBPin
                     ROWOUTLabel(y).Text = ""
@@ -1042,9 +855,8 @@ Public Class frmTrace
                 RowOutICON(y).Image = ICEditor.GetRowIcon(Project.RowOUTPins(y), 999)
             Next y
             st.Close()
-            'chkClockStart.Checked = IIf(Project.ClockStart = 1, True, False)
+
             txtClockDelay.Text = Project.ClockDelay
-            'chkPullUps.Checked = Project.PullUps
         End If
     End Sub
     Private Sub mnuAdd8Pin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -1058,6 +870,7 @@ Public Class frmTrace
 
     End Sub
     Private Sub mnuNewProject_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuNewProject.Click
+
         Project = New BBProject
         For y As Integer = 0 To 7
             panelBreadboard.Controls.Remove(Chips(y))
@@ -1539,6 +1352,221 @@ Retry:
             ASCLine = ""
         End If
 
+    End Sub
+
+    Private Sub Set_RowA_Control()
+
+        For y As Integer = 0 To 31
+            RowAICON(y) = New PictureBox()
+            RowAICON(y).Width = 21
+            RowAICON(y).Height = 21
+            RowAICON(y).Top = y * 21 + BreadBoard.Top
+            RowAICON(y).Left = BreadBoard.Left - 21
+            RowAICON(y).Image = ICEditor.imgRowIcons.Images(8)
+            RowAICON(y).SizeMode = PictureBoxSizeMode.CenterImage
+            RowAICON(y).BorderStyle = BorderStyle.None
+            RowAICON(y).Visible = True
+            RowAICON(y).Tag = y + 32
+            AddHandler RowAICON(y).Paint, AddressOf RowOut_Paint
+
+            panelBreadboard.Controls.Add(RowAICON(y))
+            RowAICON(y).BringToFront()
+            ROWALabel(y) = New Label()
+            ROWALabel(y).Width = 79
+            ROWALabel(y).Height = 21
+            ROWALabel(y).Left = BreadBoard.Left - 100
+            ROWALabel(y).Top = RowAICON(y).Top + 1
+            ROWALabel(y).Visible = True
+            ROWALabel(y).Text = String.Empty
+            ROWALabel(y).BorderStyle = BorderStyle.None
+            ROWALabel(y).TextAlign = ContentAlignment.MiddleRight
+            ROWALabel(y).BackColor = Color.Transparent
+            ROWALabel(y).ForeColor = Color.Black
+            ROWALabel(y).Tag = y
+            AddHandler ROWALabel(y).DoubleClick, AddressOf ROWA_Click
+            AddHandler ROWALabel(y).MouseDown, AddressOf ROWA_MouseDown
+            AddHandler ROWALabel(y).Paint, AddressOf Row_Paint
+            panelBreadboard.Controls.Add(ROWALabel(y))
+            ROWALabel(y).BringToFront()
+        Next y
+    End Sub
+    Private Sub Set_RowB_Control()
+
+        For y As Integer = 0 To 31
+            RowBICON(y) = New PictureBox()
+            RowBICON(y).Width = 21
+            RowBICON(y).Height = 21
+            RowBICON(y).Top = y * 21 + BreadBoard.Top
+            RowBICON(y).Left = BreadBoard.Left + BreadBoard.Width
+            RowBICON(y).SizeMode = PictureBoxSizeMode.CenterImage
+            RowBICON(y).Image = ICEditor.imgRowIcons.Images(8)
+            RowBICON(y).BorderStyle = BorderStyle.None
+            RowBICON(y).Visible = True
+            RowBICON(y).Tag = y + 32
+
+            AddHandler RowBICON(y).Paint, AddressOf RowOut_Paint
+
+            panelBreadboard.Controls.Add(RowBICON(y))
+            RowBICON(y).BringToFront()
+            ROWBLabel(y) = New Label()
+            ROWBLabel(y).Width = 79
+            ROWBLabel(y).Left = RowBICON(y).Left + 21
+            ROWBLabel(y).Height = 21
+            ROWBLabel(y).Top = RowBICON(y).Top + 1
+            ROWBLabel(y).Visible = True
+            ROWBLabel(y).Text = String.Empty
+            ROWBLabel(y).BackColor = Color.Transparent
+            ROWBLabel(y).ForeColor = Color.Black
+            ROWBLabel(y).BorderStyle = BorderStyle.None
+            ROWBLabel(y).RightToLeft = Windows.Forms.RightToLeft.No
+            ROWBLabel(y).TextAlign = ContentAlignment.MiddleLeft
+
+            AddHandler ROWBLabel(y).DoubleClick, AddressOf ROWB_Click
+            AddHandler ROWBLabel(y).MouseDown, AddressOf ROWB_MouseDown
+            AddHandler ROWBLabel(y).Paint, AddressOf Row_Paint
+
+            panelBreadboard.Controls.Add(ROWBLabel(y))
+            ROWBLabel(y).BringToFront()
+            ROWBLabel(y).Tag = y + 32
+            If Project.RowAPins(y) Is Nothing Then Project.RowAPins(y) = New BBPin
+            If Project.RowBPins(y) Is Nothing Then Project.RowBPins(y) = New BBPin
+            Project.RowAPins(y).Text = ROWALabel(y).Text
+            Project.RowBPins(y).Text = ROWBLabel(y).Text
+        Next y
+
+    End Sub
+    Private Sub Set_RowOut_Control()
+        For y As Integer = 0 To 63
+            RowOutICON(y) = New PictureBox
+            RowOutICON(y).Width = 21
+            RowOutICON(y).Height = 21
+            RowOutICON(y).Top = y * 21
+            RowOutICON(y).Left = 0
+            RowOutICON(y).SizeMode = PictureBoxSizeMode.CenterImage
+            RowOutICON(y).BorderStyle = BorderStyle.None
+
+            RowOutICON(y).Visible = True
+            RowOutICON(y).Tag = y + 32
+            AddHandler RowOutICON(y).Paint, AddressOf RowOut_Paint
+
+            PanelTrace.Controls.Add(RowOutICON(y))
+
+            ROWOUTLabel(y) = New Label()
+            ROWOUTLabel(y).Width = 79
+            ROWOUTLabel(y).Left = 21
+            ROWOUTLabel(y).Height = 21
+            ROWOUTLabel(y).Top = y * 21
+            ROWOUTLabel(y).Visible = True
+            ROWOUTLabel(y).Text = "USER " & y + 1
+            ROWOUTLabel(y).BorderStyle = BorderStyle.None
+            ROWOUTLabel(y).TextAlign = ContentAlignment.MiddleLeft
+            ROWOUTLabel(y).BackColor = Color.White
+            ROWOUTLabel(y).ForeColor = Color.Blue
+            ROWOUTLabel(y).Tag = y
+            ROWOUTLabel(y).AllowDrop = True
+
+            AddHandler ROWOUTLabel(y).Paint, AddressOf RowOut_Paint
+            AddHandler ROWOUTLabel(y).DoubleClick, AddressOf ROWOUT_Click
+            AddHandler ROWOUTLabel(y).MouseDown, AddressOf ROWOUT_MouseDown
+            AddHandler ROWOUTLabel(y).DragOver, AddressOf ROWOUT_DragOver
+            AddHandler ROWOUTLabel(y).DragDrop, AddressOf ROWOUT_DragDrop
+
+            PanelTrace.Controls.Add(ROWOUTLabel(y))
+            ROWOUTLabel(y).BringToFront()
+        Next y
+    End Sub
+    Private Sub Set_DigitSourceLabel()
+        For y As Integer = 0 To 15
+            DigitSourceLabel(y) = New Label()
+            DigitSourceLabel(y).Width = 14
+            DigitSourceLabel(y).Left = y * 21 + 3
+            DigitSourceLabel(y).Height = PanelADC.Height
+            DigitSourceLabel(y).Top = 0
+            DigitSourceLabel(y).Visible = True
+            DigitSourceLabel(y).Text = "D " & y
+            DigitSourceLabel(y).BorderStyle = BorderStyle.None
+            DigitSourceLabel(y).TextAlign = ContentAlignment.TopCenter
+            DigitSourceLabel(y).BackColor = Color.Silver
+            DigitSourceLabel(y).ForeColor = Color.Blue
+            DigitSourceLabel(y).Tag = y
+            PanelLCD.Controls.Add(DigitSourceLabel(y))
+        Next
+    End Sub
+    Private Sub Set_frmTrace_Info()
+        Me.SuspendLayout()
+        Me.Text = "Banana Board 128"
+        Me.Height = BreadBoard.Height / 2 + ToolStrip1.Height + panelBitEditor.Height
+    End Sub
+    Private Sub Set_Breadboard()
+        BreadBoard.Top = 0
+        BreadBoard.Left = 79 + 21
+        splitBreadBoard.Top = Me.ToolStrip1.Height
+        splitBreadBoard.Left = 0
+        splitBreadBoard.Height = Me.Height - ToolStrip1.Height - 28
+        splitBreadBoard.SplitterDistance = BreadBoard.Height / 3
+        panelBreadboard.Width = 200 + BreadBoard.Width + 5
+        splitBreadBoard.Width = panelBreadboard.Width + 25
+    End Sub
+    Private Sub Set_Tabs()
+        tabs.Left = splitBreadBoard.Width
+        tabs.Top = ToolStrip1.Height
+        tabs.Height = Me.Height - ToolStrip1.Height - 28
+        tabs.Width = Me.Width - tabs.Left
+    End Sub
+    Private Sub Set_pb()
+        pbSelected.Left = ROWOUTLabel(0).Width + 21
+        pbSelected.Top = 0
+        pbSelected.Width = 5120
+        pbSelected.Height = 21 * 64
+        pbSelected.BorderStyle = BorderStyle.None
+    End Sub
+    Private Sub Set_pg()
+        pg.Height = splitBreadBoard.Panel2.Height - panelBitEditor.Height - 2
+        pg.Controls(0).Controls(0).BackColor = Color.Transparent
+        pg.Controls(0).Controls(1).BackColor = Color.Transparent
+        AddHandler pg.Controls(0).Paint, AddressOf pg_labelpaint
+    End Sub
+    Private Sub Set_pots()
+        Dim pot As New BBPot
+
+        pot.Text = "Pot 1"
+        pot.Enabled = False
+        pot.Index = 0
+
+        Pot0.Tag = pot
+        Pot0.Text = "Pot 1"
+
+        pot = New BBPot
+        pot.Text = "Pot 2"
+        pot.Enabled = False
+        pot.Index = 1
+
+        Pot1.Tag = pot
+        Pot1.Text = "Pot 2"
+    End Sub
+    Private Sub Set_ADC()
+        'Analog to Digital
+
+        ADC0.Text = "ADC 1"
+        ADC1.Text = "ADC 2"
+        ADC2.Text = "ADC 3"
+        ADC3.Text = "ADC 4"
+        ADC4.Text = "ADC 5"
+        ADC5.Text = "ADC 6"
+        ADC6.Text = "ADC 7"
+        ADC7.Text = "ADC 8"
+    End Sub
+    Private Sub Set_DAC()
+        DAC0.Text = "DAC 1"
+        DAC1.Text = "DAC 2"
+    End Sub
+    Private Sub Set_Timer()
+        Dim Timer1 As New BananaBoard.BananaTimer16
+        Timer1.fclk_IO = 16000000
+        Timer1.Visible = True
+        AddHandler Timer1.LabelClick, AddressOf RTC_LabelClick
+        PanelTimer.Controls.Add(Timer1)
+        Timer1.BringToFront()
     End Sub
 
 #End Region
