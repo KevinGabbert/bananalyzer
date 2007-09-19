@@ -10,12 +10,14 @@ Public Class BBProject
     Public Chips(7) As IC
     Public TraceRangeLabels As TraceRangeLabel()
 End Class
+
 Public Class TraceRangeLabel
     Public Row As Integer
     Public StartColumn As Integer
     Public EndColumn As Integer
     Public Text As String
 End Class
+
 Public Class IC
     Public Text As String = ""
     Public Description As String = ""
@@ -24,6 +26,7 @@ Public Class IC
     Public Row As Integer = 0
     Public Flip As Boolean
 End Class
+
 Public Class BBChip
     Dim _Value As String
     <DisplayName("Part Number")> _
@@ -36,6 +39,7 @@ Public Class BBChip
             _Value = value
         End Set
     End Property
+
     Dim _Description As String
     <DisplayName("Part Description")> _
     <Category("Info")> _
@@ -47,6 +51,7 @@ Public Class BBChip
             _Description = value
         End Set
     End Property
+
     Dim _Pins() As BBPin
     <Browsable(False)> _
     Public Property Pins() As BBPin()
@@ -57,6 +62,7 @@ Public Class BBChip
             _Pins = value
         End Set
     End Property
+
     Private _DataSheet As String = ""
     <DisplayName("Datasheet")> _
     <Category("Info")> _
@@ -70,6 +76,7 @@ Public Class BBChip
         End Set
     End Property
 End Class
+
 Public Class BBPin
     Private _Row As Integer = 0
     <DisplayName("BananaBoard Row Index")> _
@@ -82,6 +89,7 @@ Public Class BBPin
             _Row = value
         End Set
     End Property
+
     Private _Column As Integer = 0
     <Browsable(False)> _
     Public Property Column() As Integer
@@ -92,6 +100,7 @@ Public Class BBPin
             _Column = value
         End Set
     End Property
+
     Private _Text As String = ""
     <DisplayName("Pin Name")> _
     <Category("General")> _
@@ -104,6 +113,7 @@ Public Class BBPin
             _Text = value
         End Set
     End Property
+
     Private _Output As Boolean
     <Browsable(False)> _
     <DisplayName("Output")> _
@@ -117,6 +127,7 @@ Public Class BBPin
             _Output = value
         End Set
     End Property
+
     Private _Clock As Boolean = False
     <Browsable(False)> _
     <DisplayName("Output Clock")> _
@@ -130,6 +141,7 @@ Public Class BBPin
             _Clock = value
         End Set
     End Property
+
     Private _InvertClock As Boolean = False
     <Browsable(False)> _
     <DisplayName("Output Clock Starts at 1")> _
@@ -143,6 +155,7 @@ Public Class BBPin
             _InvertClock = value
         End Set
     End Property
+
     Private _ClockPulseWidth As Integer
     <Browsable(False)> _
     Public Property ClockPulseWidth() As Integer
@@ -153,6 +166,7 @@ Public Class BBPin
             _ClockPulseWidth = value
         End Set
     End Property
+
     Private _Bits As String = "0"
     <Browsable(False)> _
     <DisplayName("Output Mask")> _
@@ -166,6 +180,7 @@ Public Class BBPin
             _Bits = value
         End Set
     End Property
+
     Private _BackColor As String = "White"
     <Browsable(False)> _
     Public Property BackColor() As String
@@ -176,6 +191,7 @@ Public Class BBPin
             _BackColor = value
         End Set
     End Property
+
     Private _ForeColor As String = "Blue"
     <Browsable(False)> _
     Public Property ForeColor() As String
@@ -186,6 +202,7 @@ Public Class BBPin
             _ForeColor = value
         End Set
     End Property
+
     Private _PinFunction As String
     <Category("Settings")> _
     <DisplayName("Function")> _
@@ -200,6 +217,7 @@ Public Class BBPin
             _PinFunction = value
         End Set
     End Property
+
     Private _PullUp As Boolean
     <DisplayName("Enable Pull Up Resistor")> _
     <Category("Settings")> _
@@ -212,15 +230,7 @@ Public Class BBPin
             _PullUp = value
         End Set
     End Property
-    'Dim _ParentPin As BBPin
-    'Public Property ParentPin() As BBPin
-    '    Get
-    '        Return _ParentPin
-    '    End Get
-    '    Set(ByVal value As BBPin)
-    '        _ParentPin = value
-    '    End Set
-    'End Property
+
 End Class
 Public Class BBPot
     Private _Index As Integer = 0
@@ -234,6 +244,7 @@ Public Class BBPot
             _Index = value
         End Set
     End Property
+
     Private _Text As String = ""
     <DisplayName("Pot Name")> _
     <Category("General")> _
@@ -246,6 +257,7 @@ Public Class BBPot
             _Text = value
         End Set
     End Property
+
     Private _Enabled As Boolean
     <Browsable(False)> _
     <DisplayName("Enabled")> _
@@ -259,6 +271,7 @@ Public Class BBPot
             _Enabled = value
         End Set
     End Property
+
     Private _Values As Byte()
     <Browsable(False)> _
     <DisplayName("Output Script")> _
@@ -272,7 +285,9 @@ Public Class BBPot
             _Values = value
         End Set
     End Property
-    Private _BackColor As String = "White"
+
+    Private _BackColor As String = "White" 'TODO: up with this guy? KRG 
+
     Private _PotFunction As String
     <Category("Settings")> _
     <DisplayName("Function")> _
@@ -297,14 +312,12 @@ Public Class BBPinFunctionList : Inherits System.ComponentModel.StringConverter
     Public Overloads Overrides Function GetStandardValuesSupported(ByVal context As System.ComponentModel.ITypeDescriptorContext) As Boolean
         Return True
     End Function
-    Public Overloads Overrides Function _
-        GetStandardValuesExclusive(ByVal context _
-        As System.ComponentModel.ITypeDescriptorContext) _
-        As Boolean
+    Public Overloads Overrides Function GetStandardValuesExclusive(ByVal context As System.ComponentModel.ITypeDescriptorContext) As Boolean
         Return True
     End Function
 End Class
 Public Class BBPotFunctionList : Inherits System.ComponentModel.StringConverter
+
     Public Overloads Overrides Function GetStandardValues(ByVal context As System.ComponentModel.ITypeDescriptorContext) As System.ComponentModel.TypeConverter.StandardValuesCollection
         Dim _OPs As String() = New String() {"", "Max (10k Ohms)", "Min (0 Ohms)", "Half (5k Ohms)", "Falling Sawtooth", "Rising Sawtooth", "Scripted Output"}
         Return New StandardValuesCollection(_OPs)
@@ -312,11 +325,18 @@ Public Class BBPotFunctionList : Inherits System.ComponentModel.StringConverter
     Public Overloads Overrides Function GetStandardValuesSupported(ByVal context As System.ComponentModel.ITypeDescriptorContext) As Boolean
         Return True
     End Function
-    Public Overloads Overrides Function _
-        GetStandardValuesExclusive(ByVal context _
-        As System.ComponentModel.ITypeDescriptorContext) _
-        As Boolean
+    Public Overloads Overrides Function GetStandardValuesExclusive(ByVal context As System.ComponentModel.ITypeDescriptorContext) As Boolean
         Return True
     End Function
+
 End Class
 
+'Dim _ParentPin As BBPin
+'Public Property ParentPin() As BBPin
+'    Get
+'        Return _ParentPin
+'    End Get
+'    Set(ByVal value As BBPin)
+'        _ParentPin = value
+'    End Set
+'End Property

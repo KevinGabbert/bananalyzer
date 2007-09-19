@@ -4,6 +4,9 @@ Public Class BananaRTC
     Public Event LabelClick(ByVal sender As Object, ByVal e As System.EventArgs)
 
     Public fclk_IO As Double = 0
+
+#Region "Properties"
+
     Public Overrides Property Text() As String
         Get
             Return KnobLabel.Text
@@ -17,6 +20,10 @@ Public Class BananaRTC
             Return Val(Hz.Text)
         End Get
     End Property
+
+#End Region
+#Region "Event Handlers"
+
     Private Sub Knob_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Knob.MouseMove
         If e.Button = Windows.Forms.MouseButtons.Left Then
             ' (1, 8, 32, 64, 128, 256, or 1024)
@@ -47,8 +54,8 @@ Public Class BananaRTC
             Hz.Text = Math.Round(fOut, 2).ToString("#.00") & " hz"
         End If
     End Sub
-
     Private Sub OCR0_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles OCR0.MouseMove
+
         If e.Button = Windows.Forms.MouseButtons.Left Then
             If OCR0.cur_ang < 256 Then Timer0.OCR = OCR0.cur_ang : OC.Text = OCR0.cur_ang
             Dim N As Integer = PrescaleValue.Text
@@ -59,8 +66,10 @@ Public Class BananaRTC
             Hz.Text = Math.Round(fOut, 2).ToString("#.00") & " hz"
         End If
     End Sub
-
     Private Sub KnobLabel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles KnobLabel.Click
         RaiseEvent LabelClick(Timer0, e)
     End Sub
+
+#End Region
+
 End Class

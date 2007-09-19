@@ -4,6 +4,9 @@ Public Class BananaTimer16
     Public Event LabelClick(ByVal sender As Object, ByVal e As System.EventArgs)
 
     Public fclk_IO As Double = 0
+
+#Region "Properties"
+
     Public Overrides Property Text() As String
         Get
             Return KnobLabel.Text
@@ -17,6 +20,10 @@ Public Class BananaTimer16
             Return Val(AHz.Text)
         End Get
     End Property
+
+#End Region
+#Region "Event Handlers"
+
     Private Sub Knob_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Knob.MouseMove
         If e.Button = Windows.Forms.MouseButtons.Left Then
             ' (1, 8, 32, 64, 128, 256, or 1024)
@@ -102,5 +109,7 @@ Public Class BananaTimer16
     Private Sub KnobLabel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles KnobLabel.Click
         RaiseEvent LabelClick(Timer1, e)
     End Sub
+
+#End Region
 
 End Class

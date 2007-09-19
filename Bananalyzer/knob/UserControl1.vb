@@ -11,18 +11,27 @@
 Imports System.Reflection
 Imports system.io
 Public Class UserControl1
-    Dim scales As String = "1"
-    Dim angle As Integer
-    Dim maxangle As Integer
-    Dim minangle As Integer
+
     Dim locked As Boolean = False
     Dim melocked As Boolean = False
     Dim knob1ismoving As Boolean = False
+
+    Dim scales As String = "1"
+
+    Dim angle As Integer
+    Dim maxangle As Integer
+    Dim minangle As Integer
     Dim mouseangle As Integer
     Dim curmouseangle As Integer
     Dim knobstartangle As Integer
     Dim oldmouseangle As Integer
     Dim revolutions As Integer
+
+    Dim knob As Bitmap
+    Dim knobbase As Bitmap
+
+#Region "Properties"
+
     Property islocked() As Boolean
         Get
             islocked = melocked
@@ -77,18 +86,18 @@ Public Class UserControl1
             minangle = min_ang
         End Set
     End Property
-    Dim knob As Bitmap
-    Dim knobbase As Bitmap
-    Protected Function GetEmbeddedResourceStream(ByVal ResourceName As String) As Stream
-        Return System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName)
-    End Function
-    Private Sub UserControl1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Timer1.Enabled = True
-    End Sub
+
+#End Region
+
+#Region "Event Handlers"
+
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
+
         e.Graphics.ScaleTransform(scales, scales)
+
         knobbase = New Bitmap(GetEmbeddedResourceStream("knob.knobbase.png"))     'REPLACE New Bitmap(GetEmbeddedResourceStream("knob.knobbase.png")) with New Bitmap("PATH OF knobbase.png/knobbase")
         knob = New Bitmap(GetEmbeddedResourceStream("knob.knobtop.png"))          'DITTO except with knoptop.png of course
+
         Me.Height = knobbase.Height * scales
         Me.Width = knobbase.Width * scales
         e.Graphics.DrawImage(knobbase, 0, 0)
@@ -97,20 +106,19 @@ Public Class UserControl1
         e.Graphics.TranslateTransform(75, 75)
         e.Graphics.RotateTransform(angle)
         e.Graphics.DrawImage(knob, -knob.Width \ 2, -knob.Height \ 2)
-    End Sub
 
+    End Sub
+    Private Sub UserControl1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Timer1.Enabled = True
+    End Sub
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         Me.Refresh()
         EnableDoubleBuffering()
         Timer1.Enabled = False
     End Sub
-    Sub EnableDoubleBuffering()
-        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer _
-        Or ControlStyles.UserPaint _
-        Or ControlStyles.AllPaintingInWmPaint, _
-        True)
-        Me.UpdateStyles()
-    End Sub
+
+#Region "UserControl1"
+
     Private Sub UserControl11_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDown
         Dim centerofknobx As Integer = Me.Width / 2
         Dim centerofknoby As Integer = Me.Height / 2
@@ -122,7 +130,6 @@ Public Class UserControl1
         End If
         If melocked = True Then knob1ismoving = False
     End Sub
-
     Private Sub UserControl11_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
         If knob1ismoving = True Then
             Dim centerofknobx As Integer = Me.Width / 2
@@ -150,4 +157,25 @@ Public Class UserControl1
     Private Sub UserControl11_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
         knob1ismoving = False
     End Sub
+
+#End Region
+
+#End Region
+#Region "Functions"
+
+    Protected Function GetEmbeddedResourceStream(ByVal ResourceName As String) As Stream
+        Return System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName)
+    End Function
+    Sub EnableDoubleBuffering()
+
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer _
+        Or ControlStyles.UserPaint _
+        Or ControlStyles.AllPaintingInWmPaint, _
+        True)
+
+        Me.UpdateStyles()
+    End Sub
+
+#End Region
+
 End Class

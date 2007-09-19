@@ -83,7 +83,6 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="AssemblyInfo.vb" />
-    <Compile Include="BBChip.vb" />
     <Compile Include="frmTrace.Designer.vb">
       <DependentUpon>frmTrace.vb</DependentUpon>
     </Compile>
