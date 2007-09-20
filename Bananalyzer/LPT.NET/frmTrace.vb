@@ -969,7 +969,7 @@ Public Class frmTrace
             e.Graphics.DrawImage(RowOutICON(i).Image, 0, i * 21 + TopMargin)
             e.Graphics.DrawLine(Pens.LightGray, 0, i * 21 + TopMargin - 1, TraceLeft, i * 21 + TopMargin - 1)
             e.Graphics.DrawString(l.Text, BaseFont, Brushes.Black, LabelLeft, LabelTop)
-            If Project.RowOUTPins(i).Text.Contains("~") Then
+            If Project.RowOUTPins.Length > i AndAlso Project.RowOUTPins(i).Text.Contains("~") Then
                 Dim Text As String = Project.RowOUTPins(i).Text
                 Dim Left As Integer = e.Graphics.MeasureString(Text.Substring(0, Text.IndexOf("~")), l.Font, 79).Width + 1
                 Text = Text.Substring(Text.IndexOf("~") + 1)
