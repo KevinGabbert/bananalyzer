@@ -1236,35 +1236,33 @@ Public Class frmTrace
 
     Private Sub Set_RowA_Control()
 
-        For y As Integer = 0 To 31
-            Me.Set_Row_ICON(Me.RowAICON, y, y * 21 + BreadBoard.Top, BreadBoard.Left - 21)
+        For item As Integer = 0 To 31
+            Me.Set_Row_ICON(Me.RowAICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left - 21)
 
-            Me.Set_RowA_Label(y)
-            Me.Set_ROWA_Pins(y)
-        Next y
+            Me.Set_RowA_Label(item)
+            Me.Set_ROW_Pins(Project.RowAPins(item), ROWALabel(item).Text)
+        Next item
 
     End Sub
     Private Sub Set_RowB_Control()
 
-        For y As Integer = 0 To 31
-            Me.Set_Row_ICON(Me.RowBICON, y, y * 21 + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
+        For item As Integer = 0 To 31
+            Me.Set_Row_ICON(Me.RowBICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
 
-            Me.Set_ROWB_Label(y)
-            Me.Set_ROWB_Pins(y)
+            Me.Set_ROWB_Label(item)
+            Me.Set_ROW_Pins(Project.RowBPins(item), ROWBLabel(item).Text)
 
             ' This is actually set in Set_Row_ICON, but it has to be reset here too.
-            ROWBLabel(y).Tag = y + 32
-        Next y
+            ROWBLabel(item).Tag = item + 32
+        Next item
 
     End Sub
 
-    Private Sub Set_ROWA_Pins(ByVal item As Integer)
-        If Project.RowAPins(item) Is Nothing Then Project.RowAPins(item) = New BBPin
-        Project.RowAPins(item).Text = ROWALabel(item).Text
-    End Sub
-    Private Sub Set_ROWB_Pins(ByVal item As Integer)
-        If Project.RowBPins(item) Is Nothing Then Project.RowBPins(item) = New BBPin
-        Project.RowBPins(item).Text = ROWBLabel(item).Text
+    Private Sub Set_ROW_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
+
+        If BBPin Is Nothing Then BBPin = New BBPin
+        BBPin.Text = pinText
+
     End Sub
 
 #End Region

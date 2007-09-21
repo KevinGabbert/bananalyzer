@@ -1,6 +1,6 @@
 Public Class BananaCOM
 
-    Private WithEvents COMPort As New IO.Ports.SerialPort("COM4", "57600", IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
+    Private WithEvents COMPort As New IO.Ports.SerialPort("COM6", "57600", IO.Ports.Parity.None, 8, IO.Ports.StopBits.One)
 
 #Region "Form Variables"
 
