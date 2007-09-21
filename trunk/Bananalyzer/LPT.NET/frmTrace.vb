@@ -19,16 +19,17 @@ Public Class frmTrace
     Const ROM_OFF As Integer = 8
     Const READ_ON As Integer = 32
     Const READ_OFF As Integer = 0
+    Const ROW_SCALE As Integer = 21
 
 #End Region
 #Region "Variables"
 
-    Private ROWALabel(31) As Label
-    Private RowAICON(31) As PictureBox
+    Private ROWALabel(63) As Label
+    Private RowAICON(63) As PictureBox
     Private LEDASTATE(31) As Boolean
 
-    Private ROWBLabel(31) As Label
-    Private RowBICON(31) As PictureBox
+    'Private ROWBLabel(31) As Label
+    'Private RowBICON(31) As PictureBox
 
     Private ROWOUTLabel(63) As Label
     Private RowOutICON(63) As PictureBox
@@ -94,14 +95,14 @@ Public Class frmTrace
         Me.Set_BreadboardX() '
         Me.Set_TabsX() '
 
-        Me.Set_RowA_Control(0, 31)
-        Me.Set_RowB_Control(0, 31)
+        Me.Set_Row_Control(0, 31, BreadBoard.Left - ROW_SCALE)
+        Me.Set_Row_Control(32, 63, BreadBoard.Left + BreadBoard.Width)
 
         ReDim Project.RowOUTPins(63)
 
         Me.Set_RowOut_Control()
 
-        PanelTimer.Left = ROWBLabel(0).Left + ROWBLabel(0).Width + 1
+        PanelTimer.Left = ROWALabel(0).Left + ROWALabel(0).Width + 1  'B!
 
         Me.Set_pb()
         Me.ClearTrace()
@@ -300,7 +301,7 @@ Public Class frmTrace
     End Sub
     Private Sub LCD_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
         If e.Data.GetDataPresent("System.Windows.Forms.Label", True) Then
-            Dim TargetROW As Label = DigitSourceLabel(e.X / 21)
+            Dim TargetROW As Label = DigitSourceLabel(e.X / ROW_SCALE)
             Dim DroppedROW As Label = CType(e.Data.GetData("System.Windows.Forms.Label"), Label)
             TargetROW.Text = DroppedROW.Text
             TargetROW.BackColor = DroppedROW.BackColor
@@ -341,7 +342,7 @@ Public Class frmTrace
                 mousex = -e.X
                 mousey = -e.Y
                 Dim clipleft As Integer = Me.PointToClient(MousePosition).X - sender.Location.X
-                Dim cliptop As Integer = Me.PointToClient(MousePosition).Y - sender.Location.Y - 21
+                Dim cliptop As Integer = Me.PointToClient(MousePosition).Y - sender.Location.Y - ROW_SCALE
                 Dim clipwidth As Integer = Me.ClientSize.Width - (sender.Width - clipleft)
                 Dim clipheight As Integer = Me.ClientSize.Height - (sender.Height - cliptop)
                 Windows.Forms.Cursor.Clip = Me.RectangleToScreen(New Rectangle(clipleft, cliptop, clipwidth, clipheight))
@@ -370,10 +371,10 @@ Public Class frmTrace
             Dragging = False
             Windows.Forms.Cursor.Clip = Nothing
             ' snap to grid
-            sender.Left = 21 * IIf(Project.Chips(sender.Tag).PinCount > 20, 2, 4) + BreadBoard.Left - 1 ' CInt(IC1.Location.X / 21) * 21 + 4
-            sender.Top = CInt(sender.Location.Y / 21) * 21 + 4
+            sender.Left = ROW_SCALE * IIf(Project.Chips(sender.Tag).PinCount > 20, 2, 4) + BreadBoard.Left - 1 ' CInt(IC1.Location.X / ROW_SCALE) * ROW_SCALE + 4
+            sender.Top = CInt(sender.Location.Y / ROW_SCALE) * ROW_SCALE + 4
             sender.Invalidate()
-            Project.Chips(sender.Tag).Row = CInt(sender.Location.Y / 21) - 1
+            Project.Chips(sender.Tag).Row = CInt(sender.Location.Y / ROW_SCALE) - 1
             ClearRowLabelSelect()
             sender.BorderStyle = BorderStyle.FixedSingle
         End If
@@ -400,7 +401,7 @@ Public Class frmTrace
             For x As Integer = 0 To c.Width Step 20
                 g.DrawLine(Pens.LightGray, x, Top, x, c.Height)
             Next
-            For y As Integer = Top To c.Height Step 21
+            For y As Integer = Top To c.Height Step ROW_SCALE
                 g.DrawLine(Pens.LightGray, 0, y, c.Width, y)
             Next
         Catch ex As Exception
@@ -421,7 +422,7 @@ Public Class frmTrace
             For x As Integer = 0 To c.Width Step 20
                 g.DrawLine(Pens.LightGray, x, Top, x, c.Height)
             Next
-            For y As Integer = Top To c.Height Step 21
+            For y As Integer = Top To c.Height Step ROW_SCALE
                 g.DrawLine(Pens.LightGray, 0, y, c.Width, y)
             Next
         Catch ex As Exception
@@ -480,8 +481,8 @@ Public Class frmTrace
                     RowAICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
                     ROWALabel(Pin.Row).Text = Pin.Text
                 Else
-                    RowBICON(63 - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
-                    ROWBLabel(63 - Pin.Row).Text = Pin.Text
+                    RowAICON(63 - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32) 'B
+                    ROWALabel(63 - Pin.Row).Text = Pin.Text  'B
                 End If
             Case "BBPot"
 
@@ -744,7 +745,7 @@ Public Class frmTrace
                             End If
                         Next
                 End Select
-                y += 21
+                y += ROW_SCALE
             End If
         Next
 
@@ -824,15 +825,20 @@ Public Class frmTrace
                     Project.RowBPins(y) = New BBPin()
                 End If
                 Project.RowAPins(y).Row = y
-                Project.RowBPins(y).Row = 63 - y
+
+
                 ROWALabel(y).Text = Project.RowAPins(y).Text.Replace("~", "")
                 RowLabelTT = New ToolTip
                 RowLabelTT.SetToolTip(ROWALabel(y), "BananaRow A" & y.ToString)
                 RowAICON(y).Image = ICEditor.GetRowIcon(Project.RowAPins(y), 32)
-                ROWBLabel(y).Text = Project.RowBPins(y).Text.Replace("~", "")
+
+
+                Project.RowBPins(y).Row = 63 - y
+                ROWALabel(y + 32).Text = Project.RowBPins(y).Text.Replace("~", "") 'B
                 RowLabelTT = New ToolTip
-                RowLabelTT.SetToolTip(ROWBLabel(y), "BananaRow B" & y.ToString)
-                RowBICON(y).Image = ICEditor.GetRowIcon(Project.RowBPins(y), 32)
+                RowLabelTT.SetToolTip(ROWALabel(y + 32), "BananaRow B" & y.ToString) 'B
+                RowAICON(y + 32).Image = ICEditor.GetRowIcon(Project.RowBPins(y), 32) 'B
+
             Next y
             ICCount = 0
             For y As Integer = 0 To 7
@@ -895,9 +901,10 @@ Public Class frmTrace
             RowOutICON(y).Image = ICEditor.imgRowIcons.Images(8)
             RowOutICON(y + 32).Image = ICEditor.imgRowIcons.Images(8)
             ROWALabel(y).Text = ""
-            ROWBLabel(y).Text = ""
+
+            ROWALabel(y + 32).Text = "" 'B
             RowAICON(y).Image = ICEditor.imgRowIcons.Images(8)
-            RowBICON(y).Image = ICEditor.imgRowIcons.Images(8)
+            RowAICON(y + 32).Image = ICEditor.imgRowIcons.Images(8) 'B
         Next
         ICCount = 0
 
@@ -961,13 +968,13 @@ Public Class frmTrace
         Dim TraceLeft As Integer = RowOutICON(0).Width + ROWOUTLabel(0).Width + 1
         Dim TraceTop As Integer = 0
         Dim TopMargin As Integer = 50
-        Dim RowCount As Integer = (e.PageBounds.Height - 50) / 21
+        Dim RowCount As Integer = (e.PageBounds.Height - 50) / ROW_SCALE
         Dim l As Label = Nothing
         For i As Integer = 0 To RowCount - 1
             l = ROWOUTLabel(i)
-            LabelTop = (i * 21) + 4 + TopMargin
-            e.Graphics.DrawImage(RowOutICON(i).Image, 0, i * 21 + TopMargin)
-            e.Graphics.DrawLine(Pens.LightGray, 0, i * 21 + TopMargin - 1, TraceLeft, i * 21 + TopMargin - 1)
+            LabelTop = (i * ROW_SCALE) + 4 + TopMargin
+            e.Graphics.DrawImage(RowOutICON(i).Image, 0, i * ROW_SCALE + TopMargin)
+            e.Graphics.DrawLine(Pens.LightGray, 0, i * ROW_SCALE + TopMargin - 1, TraceLeft, i * ROW_SCALE + TopMargin - 1)
             e.Graphics.DrawString(l.Text, BaseFont, Brushes.Black, LabelLeft, LabelTop)
             If Project.RowOUTPins.Length > i AndAlso Project.RowOUTPins(i).Text.Contains("~") Then
                 Dim Text As String = Project.RowOUTPins(i).Text
@@ -1025,7 +1032,7 @@ Public Class frmTrace
             State = False
         Else
             Start = Column
-            Row = CInt(y - PanelTrace.Top) / 21
+            Row = CInt(y - PanelTrace.Top) / ROW_SCALE
             State = True
 
         End If
@@ -1078,8 +1085,8 @@ Public Class frmTrace
                 Dim RowIndex As Integer = 32 + Pin1Row + ((Chip.Pins.Length) - PinNumber)
                 Pin.Row = 63 - Pin1Row - ((Chip.Pins.Length) - PinNumber)
                 Project.RowBPins(RowIndex - 32) = Pin
-                ROWBLabel(RowIndex - 32).Text = Pin.Text.Replace("~", String.Empty)
-                RowBICON(RowIndex - 32).Image = ICEditor.GetRowIcon(Pin, 32)
+                ROWALabel(RowIndex - 32).Text = Pin.Text.Replace("~", String.Empty) 'B
+                RowAICON(RowIndex - 32).Image = ICEditor.GetRowIcon(Pin, 32) 'B
             End If
         Next
 
@@ -1094,13 +1101,13 @@ Public Class frmTrace
         Dim f As New Font("Arial", 7, FontStyle.Regular)
         Dim TextWidth As Integer = g.MeasureString(text, f).Width
         Dim TextX As Integer = Start * 20 + ((((Column * 20) - (Start * 20)) / 2) - (TextWidth / 2))
-        g.DrawLine(Pens.Black, Column * 20 - 1, Row * 21, Column * 20 - 4, Row * 21 - 2)
-        g.DrawLine(Pens.Black, Column * 20 - 1, Row * 21, Column * 20 - 4, Row * 21 + 2)
-        g.DrawLine(Pens.Black, Start * 20 + 1, Row * 21, Start * 20 + 4, Row * 21 - 2)
-        g.DrawLine(Pens.Black, Start * 20 + 1, Row * 21, Start * 20 + 4, Row * 21 + 2)
-        g.DrawString(text, f, Brushes.Black, TextX, Row * 21 - 5)
-        g.DrawLine(Pens.Black, Start * 20 + 1, Row * 21, TextX, Row * 21)
-        g.DrawLine(Pens.Black, TextX + TextWidth, Row * 21, Column * 20 - 1, Row * 21)
+        g.DrawLine(Pens.Black, Column * 20 - 1, Row * ROW_SCALE, Column * 20 - 4, Row * ROW_SCALE - 2)
+        g.DrawLine(Pens.Black, Column * 20 - 1, Row * ROW_SCALE, Column * 20 - 4, Row * ROW_SCALE + 2)
+        g.DrawLine(Pens.Black, Start * 20 + 1, Row * ROW_SCALE, Start * 20 + 4, Row * ROW_SCALE - 2)
+        g.DrawLine(Pens.Black, Start * 20 + 1, Row * ROW_SCALE, Start * 20 + 4, Row * ROW_SCALE + 2)
+        g.DrawString(text, f, Brushes.Black, TextX, Row * ROW_SCALE - 5)
+        g.DrawLine(Pens.Black, Start * 20 + 1, Row * ROW_SCALE, TextX, Row * ROW_SCALE)
+        g.DrawLine(Pens.Black, TextX + TextWidth, Row * ROW_SCALE, Column * 20 - 1, Row * ROW_SCALE)
         g.Dispose()
         pbSelected.Invalidate()
 
@@ -1152,7 +1159,7 @@ Public Class frmTrace
             For x As Integer = 0 To Me.Width Step 20
                 g.DrawLine(Pens.LightGray, x, 0, x, BreadBoard.Height)
             Next
-            For y As Integer = 20 To BreadBoard.Height Step 21
+            For y As Integer = 20 To BreadBoard.Height Step ROW_SCALE
                 g.DrawLine(Pens.LightGray, 0, y, panelBreadboard.Width, y)
             Next
         Catch ex As Exception
@@ -1171,8 +1178,8 @@ Public Class frmTrace
     Private Sub Set_Row_ICON(ByVal icon() As PictureBox, ByVal item As Integer, ByVal top As Integer, ByVal left As Integer)
 
         icon(item) = New PictureBox()
-        icon(item).Width = 21
-        icon(item).Height = 21
+        icon(item).Width = ROW_SCALE
+        icon(item).Height = ROW_SCALE
         icon(item).Top = top
         icon(item).Left = left
         icon(item).Image = ICEditor.imgRowIcons.Images(8)
@@ -1191,7 +1198,7 @@ Public Class frmTrace
 
         ROWALabel(item) = New Label()
         ROWALabel(item).Width = 79
-        ROWALabel(item).Height = 21
+        ROWALabel(item).Height = ROW_SCALE
         ROWALabel(item).Left = BreadBoard.Left - 100
         ROWALabel(item).Top = RowAICON(item).Top + 1
         ROWALabel(item).Visible = True
@@ -1210,55 +1217,50 @@ Public Class frmTrace
         ROWALabel(item).BringToFront()
 
     End Sub
-    Private Sub Set_ROWB_Label(ByVal item As Integer)
+    'Private Sub Set_ROWB_Label(ByVal item As Integer)
 
-        ROWBLabel(item) = New Label()
-        ROWBLabel(item).Width = 79
-        ROWBLabel(item).Left = RowBICON(item).Left + 21
-        ROWBLabel(item).Height = 21
-        ROWBLabel(item).Top = RowBICON(item).Top + 1
-        ROWBLabel(item).Visible = True
-        ROWBLabel(item).Text = String.Empty
-        ROWBLabel(item).BackColor = Color.Transparent
-        ROWBLabel(item).ForeColor = Color.Black
-        ROWBLabel(item).BorderStyle = BorderStyle.None
-        ROWBLabel(item).RightToLeft = Windows.Forms.RightToLeft.No
-        ROWBLabel(item).TextAlign = ContentAlignment.MiddleLeft
+    '    ROWBLabel(item) = New Label()
+    '    ROWBLabel(item).Width = 79
+    '    ROWBLabel(item).Left = RowBICON(item).Left + ROW_SCALE
+    '    ROWBLabel(item).Height = ROW_SCALE
+    '    ROWBLabel(item).Top = RowBICON(item).Top + 1
+    '    ROWBLabel(item).Visible = True
+    '    ROWBLabel(item).Text = String.Empty
+    '    ROWBLabel(item).BackColor = Color.Transparent
+    '    ROWBLabel(item).ForeColor = Color.Black
+    '    ROWBLabel(item).BorderStyle = BorderStyle.None
+    '    ROWBLabel(item).RightToLeft = Windows.Forms.RightToLeft.No
+    '    ROWBLabel(item).TextAlign = ContentAlignment.MiddleLeft
 
-        AddHandler ROWBLabel(item).DoubleClick, AddressOf ROWB_Click
-        AddHandler ROWBLabel(item).MouseDown, AddressOf ROWB_MouseDown
-        AddHandler ROWBLabel(item).Paint, AddressOf Row_Paint
+    '    AddHandler ROWBLabel(item).DoubleClick, AddressOf ROWB_Click
+    '    AddHandler ROWBLabel(item).MouseDown, AddressOf ROWB_MouseDown
+    '    AddHandler ROWBLabel(item).Paint, AddressOf Row_Paint
 
-        panelBreadboard.Controls.Add(ROWBLabel(item))
-        ROWBLabel(item).BringToFront()
+    '    panelBreadboard.Controls.Add(ROWBLabel(item))
+    '    ROWBLabel(item).BringToFront()
 
-    End Sub
+    'End Sub
 
-    Private Sub Set_RowA_Control(ByVal first As Integer, ByVal last As Integer)
+    Private Sub Set_Row_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer)
 
         For item As Integer = first To last
-            Me.Set_Row_ICON(Me.RowAICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left - 21)
+            Me.Set_Row_ICON(Me.RowAICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
 
             Me.Set_RowA_Label(item)
             Me.Set_ROW_Pins(Project.RowAPins(item), ROWALabel(item).Text)
-
-            'ROWALabel(item).Tag = item + 32
         Next item
 
     End Sub
-    Private Sub Set_RowB_Control(ByVal first As Integer, ByVal last As Integer)
+    'Private Sub Set_RowB_Control(ByVal first As Integer, ByVal last As Integer)
 
-        For item As Integer = first To last
-            Me.Set_Row_ICON(Me.RowBICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
+    '    For item As Integer = first To last
+    '        Me.Set_Row_ICON(Me.RowBICON, item, item * ROW_SCALE + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
 
-            Me.Set_ROWB_Label(item)
-            Me.Set_ROW_Pins(Project.RowBPins(item), ROWBLabel(item).Text)
+    '        Me.Set_ROWB_Label(item)
+    '        Me.Set_ROW_Pins(Project.RowBPins(item), ROWBLabel(item).Text)
+    '    Next item
 
-            ' This is actually set in Set_Row_ICON, but it has to be reset here too.
-            ROWBLabel(item).Tag = item + 32
-        Next item
-
-    End Sub
+    'End Sub
 
     Private Sub Set_ROW_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
 
@@ -1348,7 +1350,7 @@ Retry:
             For x As Integer = 0 To pbSelected.Width Step 20
                 g.DrawLine(Pens.LightGray, x, 0, x, pbSelected.Height)
             Next
-            For y As Integer = 20 To pbSelected.Height Step 21
+            For y As Integer = 20 To pbSelected.Height Step ROW_SCALE
                 g.DrawLine(Pens.LightGray, 0, y, pbSelected.Width, y)
             Next
         Catch ex As Exception
@@ -1379,8 +1381,8 @@ Retry:
             Case 40
                 Chips(Index).Image = IC40.Image.Clone
         End Select
-        Chips(Index).Height = 21 * (Pins / 2)
-        Chips(Index).Top = BreadBoard.Top + (Row * 21)
+        Chips(Index).Height = ROW_SCALE * (Pins / 2)
+        Chips(Index).Top = BreadBoard.Top + (Row * ROW_SCALE)
         Chips(Index).Width = 84 + IIf(Pins > 20, 84, 0)
         Chips(Index).Left = BreadBoard.Left + (BreadBoard.Width / 2) - IIf(Pins > 20, 84, 42)
         Chips(Index).Visible = True
@@ -1464,7 +1466,7 @@ Retry:
     Private Sub Set_BreadboardX()
 
         BreadBoard.Top = 0
-        BreadBoard.Left = 79 + 21
+        BreadBoard.Left = 79 + ROW_SCALE
         splitBreadBoard.Top = Me.ToolStrip1.Height
         splitBreadBoard.Left = 0
         splitBreadBoard.Height = Me.Height - ToolStrip1.Height - 28
@@ -1485,9 +1487,9 @@ Retry:
     Private Sub Set_RowOut_Control()
         For y As Integer = 0 To 63
             RowOutICON(y) = New PictureBox
-            RowOutICON(y).Width = 21
-            RowOutICON(y).Height = 21
-            RowOutICON(y).Top = y * 21
+            RowOutICON(y).Width = ROW_SCALE
+            RowOutICON(y).Height = ROW_SCALE
+            RowOutICON(y).Top = y * ROW_SCALE
             RowOutICON(y).Left = 0
             RowOutICON(y).SizeMode = PictureBoxSizeMode.CenterImage
             RowOutICON(y).BorderStyle = BorderStyle.None
@@ -1500,9 +1502,9 @@ Retry:
 
             ROWOUTLabel(y) = New Label()
             ROWOUTLabel(y).Width = 79
-            ROWOUTLabel(y).Left = 21
-            ROWOUTLabel(y).Height = 21
-            ROWOUTLabel(y).Top = y * 21
+            ROWOUTLabel(y).Left = ROW_SCALE
+            ROWOUTLabel(y).Height = ROW_SCALE
+            ROWOUTLabel(y).Top = y * ROW_SCALE
             ROWOUTLabel(y).Visible = True
             ROWOUTLabel(y).Text = "USER " & y + 1
             ROWOUTLabel(y).BorderStyle = BorderStyle.None
@@ -1526,7 +1528,7 @@ Retry:
         For y As Integer = 0 To 15
             DigitSourceLabel(y) = New Label()
             DigitSourceLabel(y).Width = 14
-            DigitSourceLabel(y).Left = y * 21 + 3
+            DigitSourceLabel(y).Left = y * ROW_SCALE + 3
             DigitSourceLabel(y).Height = PanelADC.Height
             DigitSourceLabel(y).Top = 0
             DigitSourceLabel(y).Visible = True
@@ -1541,10 +1543,10 @@ Retry:
     End Sub
 
     Private Sub Set_pb()
-        pbSelected.Left = ROWOUTLabel(0).Width + 21
+        pbSelected.Left = ROWOUTLabel(0).Width + ROW_SCALE
         pbSelected.Top = 0
         pbSelected.Width = 5120
-        pbSelected.Height = 21 * 64
+        pbSelected.Height = ROW_SCALE * 64
         pbSelected.BorderStyle = BorderStyle.None
     End Sub
     Private Sub Set_pgX()
@@ -1606,10 +1608,10 @@ End Class
 'Private Sub Set_RowA_ICON(ByVal item As Integer)
 
 '    RowAICON(item) = New PictureBox()
-'    RowAICON(item).Width = 21
-'    RowAICON(item).Height = 21
-'    RowAICON(item).Top = item * 21 + BreadBoard.Top
-'    RowAICON(item).Left = BreadBoard.Left - 21
+'    RowAICON(item).Width = ROW_SCALE
+'    RowAICON(item).Height = ROW_SCALE
+'    RowAICON(item).Top = item * ROW_SCALE + BreadBoard.Top
+'    RowAICON(item).Left = BreadBoard.Left - ROW_SCALE
 '    RowAICON(item).Image = ICEditor.imgRowIcons.Images(8)
 '    RowAICON(item).SizeMode = PictureBoxSizeMode.CenterImage
 '    RowAICON(item).BorderStyle = BorderStyle.None
@@ -1624,9 +1626,9 @@ End Class
 'Private Sub Set_ROWB_ICON(ByVal item As Integer)
 
 '    RowBICON(item) = New PictureBox()
-'    RowBICON(item).Width = 21
-'    RowBICON(item).Height = 21
-'    RowBICON(item).Top = item * 21 + BreadBoard.Top
+'    RowBICON(item).Width = ROW_SCALE
+'    RowBICON(item).Height = ROW_SCALE
+'    RowBICON(item).Top = item * ROW_SCALE + BreadBoard.Top
 '    RowBICON(item).Left = BreadBoard.Left + BreadBoard.Width
 '    RowBICON(item).SizeMode = PictureBoxSizeMode.CenterImage
 '    RowBICON(item).Image = ICEditor.imgRowIcons.Images(8)

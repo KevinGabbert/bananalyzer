@@ -3,7 +3,7 @@ Public Class BBProject
     Public PullUps As Boolean
     Public ClockStart As Byte
     Public ClockDelay As Long
-    Public RowAPins(31) As BBPin
+    Public RowAPins(63) As BBPin
     Public RowBPins(31) As BBPin
     Public RowOUTPins(31) As BBPin
     Public DigitPins(15) As BBPin
