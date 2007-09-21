@@ -24,12 +24,10 @@ Public Class frmTrace
 #End Region
 #Region "Variables"
 
-    Private ROWALabel(63) As Label
-    Private RowAICON(63) As PictureBox
-    Private LEDASTATE(31) As Boolean
+    Private ROWLabel(63) As Label
+    Private RowICON(63) As PictureBox
 
-    'Private ROWBLabel(31) As Label
-    'Private RowBICON(31) As PictureBox
+    Private LEDASTATE(31) As Boolean
 
     Private ROWOUTLabel(63) As Label
     Private RowOutICON(63) As PictureBox
@@ -102,7 +100,7 @@ Public Class frmTrace
 
         Me.Set_RowOut_Control()
 
-        PanelTimer.Left = ROWALabel(0).Left + ROWALabel(0).Width + 1  'B!
+        PanelTimer.Left = ROWLabel(0).Left + ROWLabel(0).Width + 1  'B!
 
         Me.Set_pb()
         Me.ClearTrace()
@@ -142,19 +140,24 @@ Public Class frmTrace
         End Try
     End Sub
     Private Sub Row_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs)
+
         Dim RowLabel As Label = CType(sender, Label)
         If RowLabel.TextAlign = ContentAlignment.MiddleLeft Then
-            If Project.RowBPins(RowLabel.Tag - 32).Text.Contains("~") Then
-                Dim Text As String = Project.RowBPins(RowLabel.Tag - 32).Text
-                Dim Left As Integer = e.Graphics.MeasureString(Text.Substring(0, Text.IndexOf("~")), RowLabel.Font, 79).Width + 1
-                Text = Text.Substring(Text.IndexOf("~") + 1)
-                Dim TextWidth As Integer = e.Graphics.MeasureString(Text, RowLabel.Font, 79).Width - 5
-                ' Right side
-                e.Graphics.DrawLine(Pens.Black, Left, 3, Left + TextWidth, 3)
-            End If
+
+            ' TODO: this will need fixing
+            'If Project.RowBPins(RowLabel.Tag - 32).Text.Contains("~") Then
+            '    Dim Text As String = Project.RowBPins(RowLabel.Tag - 32).Text
+            '    Dim Left As Integer = e.Graphics.MeasureString(Text.Substring(0, Text.IndexOf("~")), RowLabel.Font, 79).Width + 1
+
+            '    Text = Text.Substring(Text.IndexOf("~") + 1)
+            '    Dim TextWidth As Integer = e.Graphics.MeasureString(Text, RowLabel.Font, 79).Width - 5
+            '    ' Right side
+            '    e.Graphics.DrawLine(Pens.Black, Left, 3, Left + TextWidth, 3)
+            'End If
+
         Else
-            If Project.RowAPins(RowLabel.Tag).Text.Contains("~") Then
-                Dim TextWidth As Integer = e.Graphics.MeasureString(Project.RowAPins(RowLabel.Tag).Text.Replace("~", ""), RowLabel.Font, 79).Width - 7
+            If Project.RowPins(RowLabel.Tag).Text.Contains("~") Then
+                Dim TextWidth As Integer = e.Graphics.MeasureString(Project.RowPins(RowLabel.Tag).Text.Replace("~", ""), RowLabel.Font, 79).Width - 7
                 'Left Side
                 Dim Left As Integer = RowLabel.Width - TextWidth - 5
                 e.Graphics.DrawLine(Pens.Black, Left, 3, 75, 3)
@@ -168,7 +171,14 @@ Public Class frmTrace
         Project.RowOUTPins(ROW.Tag).Text = ROW.Text
     End Sub
 
-    Private Sub ROWA_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    Private Sub ROW_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim ROW As Label = CType(sender, Label)
+        ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
+        Project.RowPins(ROW.Tag).Text = ROW.Text
+
+    End Sub
+
+    Private Sub ROW_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim ROW As Label = CType(sender, Label)
         ClearRowLabelSelect()
         ROW.BorderStyle = BorderStyle.FixedSingle
@@ -176,44 +186,38 @@ Public Class frmTrace
         pg.Visible = True
         pg.BringToFront()
         If e.Clicks = 2 Then
-            ROWA_Click(sender, e)
+            ROW_Click(sender, e)
         End If
         'ROW.BackColor = Color.LightGray
-        If Project.RowAPins(ROW.Tag).Text = "" Then Project.RowAPins(ROW.Tag).Text = ROW.Text
-        pg.SelectedObject = Project.RowAPins(ROW.Tag)
+        If Project.RowPins(ROW.Tag).Text = "" Then Project.RowPins(ROW.Tag).Text = ROW.Text
+        pg.SelectedObject = Project.RowPins(ROW.Tag)
         ICEditor.ClearTrace(pbTrace)
-        ICEditor.DrawTrace(pbTrace, Project.RowAPins(ROW.Tag))
+        ICEditor.DrawTrace(pbTrace, Project.RowPins(ROW.Tag))
     End Sub
-    Private Sub ROWA_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim ROW As Label = CType(sender, Label)
-        ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
-        Project.RowAPins(ROW.Tag).Text = ROW.Text
-    End Sub
+    'Private Sub ROWB_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
 
-    Private Sub ROWB_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    '    Dim ROW As Label = CType(sender, Label)
+    '    ClearRowLabelSelect()
+    '    ROW.BorderStyle = BorderStyle.FixedSingle
+    '    DoDragDrop(sender, DragDropEffects.Copy)
+    '    pg.Visible = True
+    '    pg.BringToFront()
+    '    If e.Clicks = 2 Then
+    '        ROWB_Click(sender, e)
+    '    End If
+    '    'If Project.RowBPins(ROW.Tag).Text = "" Then Project.RowBPins(ROW.Tag).Text = ROW.Text
+    '    pg.SelectedObject = Project.RowBPins(ROW.Tag - 32)
+    '    ICEditor.ClearTrace(pbTrace)
+    '    ICEditor.DrawTrace(pbTrace, Project.RowBPins(ROW.Tag - 32))
 
-        Dim ROW As Label = CType(sender, Label)
-        ClearRowLabelSelect()
-        ROW.BorderStyle = BorderStyle.FixedSingle
-        DoDragDrop(sender, DragDropEffects.Copy)
-        pg.Visible = True
-        pg.BringToFront()
-        If e.Clicks = 2 Then
-            ROWB_Click(sender, e)
-        End If
-        'If Project.RowBPins(ROW.Tag).Text = "" Then Project.RowBPins(ROW.Tag).Text = ROW.Text
-        pg.SelectedObject = Project.RowBPins(ROW.Tag - 32)
-        ICEditor.ClearTrace(pbTrace)
-        ICEditor.DrawTrace(pbTrace, Project.RowBPins(ROW.Tag - 32))
+    'End Sub
+    'Private Sub ROWB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-    End Sub
-    Private Sub ROWB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '    Dim ROW As Label = CType(sender, Label)
+    '    ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
+    '    Project.RowBPins(ROW.Tag - 32).Text = ROW.Text
 
-        Dim ROW As Label = CType(sender, Label)
-        ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
-        Project.RowBPins(ROW.Tag - 32).Text = ROW.Text
-
-    End Sub
+    'End Sub
 
 #Region "ROWOUT"
 
@@ -258,14 +262,14 @@ Public Class frmTrace
             Else
                 If DroppedROW.TextAlign = ContentAlignment.MiddleRight Then
                     ' left side A
-                    Project.RowOUTPins(TargetROW.Tag) = Project.RowAPins(DroppedROW.Tag)
+                    Project.RowOUTPins(TargetROW.Tag) = Project.RowPins(DroppedROW.Tag)
                     'Project.RowOUTPins(TargetROW.Tag).ParentPin = Project.RowAPins(DroppedROW.Tag)
-                    TargetIcon.Image = ICEditor.GetRowIcon(Project.RowAPins(DroppedROW.Tag), 999)
+                    TargetIcon.Image = ICEditor.GetRowIcon(Project.RowPins(DroppedROW.Tag), 999)
                 Else
                     ' right side B
-                    Project.RowOUTPins(TargetROW.Tag) = Project.RowBPins(DroppedROW.Tag - 32)
+                    ''Project.RowOUTPins(TargetROW.Tag) = Project.RowBPins(DroppedROW.Tag - 32)
                     'Project.RowOUTPins(TargetROW.Tag).ParentPin = Project.RowBPins(DroppedROW.Tag - 32)
-                    TargetIcon.Image = ICEditor.GetRowIcon(Project.RowBPins(DroppedROW.Tag - 32), 999)
+                    ''TargetIcon.Image = ICEditor.GetRowIcon(Project.RowBPins(DroppedROW.Tag - 32), 999)
                 End If
             End If
         End If
@@ -478,11 +482,11 @@ Public Class frmTrace
                         'DrawEditTrace(Pin)
                 End Select
                 If Pin.Row < 32 Then
-                    RowAICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
-                    ROWALabel(Pin.Row).Text = Pin.Text
+                    RowICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
+                    ROWLabel(Pin.Row).Text = Pin.Text
                 Else
-                    RowAICON(63 - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32) 'B
-                    ROWALabel(63 - Pin.Row).Text = Pin.Text  'B
+                    RowICON(63 - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32) 'B
+                    ROWLabel(63 - Pin.Row).Text = Pin.Text  'B
                 End If
             Case "BBPot"
 
@@ -817,27 +821,28 @@ Public Class frmTrace
                 Me.Controls.Remove(Chips(y))
             Next
             Dim RowLabelTT As ToolTip
-            For y As Integer = 0 To 31
-                If Project.RowAPins(y) Is Nothing Then
-                    Project.RowAPins(y) = New BBPin()
+            For y As Integer = 0 To 63 '31
+                If Project.RowPins(y) Is Nothing Then
+                    Project.RowPins(y) = New BBPin()
                 End If
-                If Project.RowBPins(y) Is Nothing Then
-                    Project.RowBPins(y) = New BBPin()
-                End If
-                Project.RowAPins(y).Row = y
+
+                'If Project.RowBPins(y) Is Nothing Then
+                '    Project.RowBPins(y) = New BBPin()
+                'End If
+                Project.RowPins(y).Row = y
 
 
-                ROWALabel(y).Text = Project.RowAPins(y).Text.Replace("~", "")
+                ROWLabel(y).Text = Project.RowPins(y).Text.Replace("~", "")
                 RowLabelTT = New ToolTip
-                RowLabelTT.SetToolTip(ROWALabel(y), "BananaRow A" & y.ToString)
-                RowAICON(y).Image = ICEditor.GetRowIcon(Project.RowAPins(y), 32)
+                RowLabelTT.SetToolTip(ROWLabel(y), "BananaRow " & y.ToString) 'A
+                RowICON(y).Image = ICEditor.GetRowIcon(Project.RowPins(y), 32)
 
 
-                Project.RowBPins(y).Row = 63 - y
-                ROWALabel(y + 32).Text = Project.RowBPins(y).Text.Replace("~", "") 'B
-                RowLabelTT = New ToolTip
-                RowLabelTT.SetToolTip(ROWALabel(y + 32), "BananaRow B" & y.ToString) 'B
-                RowAICON(y + 32).Image = ICEditor.GetRowIcon(Project.RowBPins(y), 32) 'B
+                'Project.RowBPins(y).Row = 63 - y
+                'ROWLabel(y + 32).Text = Project.RowBPins(y).Text.Replace("~", "") 'B
+                'RowLabelTT = New ToolTip
+                'RowLabelTT.SetToolTip(ROWLabel(y + 32), "BananaRow B" & y.ToString) 'B
+                'RowICON(y + 32).Image = ICEditor.GetRowIcon(Project.RowBPins(y), 32) 'B
 
             Next y
             ICCount = 0
@@ -880,14 +885,16 @@ Public Class frmTrace
         For y As Integer = 0 To 7
             panelBreadboard.Controls.Remove(Chips(y))
         Next
-        For y As Integer = 0 To 31
-            Project.RowAPins(y) = New BBPin
-            Project.RowAPins(y).Row = y
-            Project.RowBPins(y) = New BBPin
-            Project.RowBPins(y).Row = 63 - y
+        For y As Integer = 0 To 63 '31
+            Project.RowPins(y) = New BBPin
+            Project.RowPins(y).Row = y
+
+            'Project.RowBPins(y) = New BBPin
+            'Project.RowBPins(y).Row = 63 - y 'TODO: positional fix may be needed here
+
             Project.RowOUTPins(y) = New BBPin
-            Project.RowAPins(y).Text = ""
-            Project.RowBPins(y).Text = ""
+            Project.RowPins(y).Text = ""
+            'Project.RowBPins(y).Text = ""
             Project.RowOUTPins(y).Text = ""
             If y < 8 Then
                 If Chips(y) IsNot Nothing Then Chips(y) = Nothing
@@ -900,11 +907,11 @@ Public Class frmTrace
             ROWOUTLabel(y + 32).Text = ""
             RowOutICON(y).Image = ICEditor.imgRowIcons.Images(8)
             RowOutICON(y + 32).Image = ICEditor.imgRowIcons.Images(8)
-            ROWALabel(y).Text = ""
+            ROWLabel(y).Text = ""
 
-            ROWALabel(y + 32).Text = "" 'B
-            RowAICON(y).Image = ICEditor.imgRowIcons.Images(8)
-            RowAICON(y + 32).Image = ICEditor.imgRowIcons.Images(8) 'B
+            ROWLabel(y + 32).Text = "" 'B
+            RowICON(y).Image = ICEditor.imgRowIcons.Images(8)
+            RowICON(y + 32).Image = ICEditor.imgRowIcons.Images(8) 'B
         Next
         ICCount = 0
 
@@ -1078,15 +1085,15 @@ Public Class frmTrace
             Dim Pin As BBPin = Chip.Pins(PinNumber - 1)
             If PinNumber <= (Chip.Pins.Length) / 2 Then
                 Pin.Row = Pin1Row + PinNumber - 1
-                Project.RowAPins(Pin1Row + PinNumber - 1) = Pin
-                ROWALabel(Pin1Row + PinNumber - 1).Text = Pin.Text.Replace("~", String.Empty)
-                RowAICON(Pin1Row + PinNumber - 1).Image = ICEditor.GetRowIcon(Pin, 32)
+                Project.RowPins(Pin1Row + PinNumber - 1) = Pin
+                ROWLabel(Pin1Row + PinNumber - 1).Text = Pin.Text.Replace("~", String.Empty)
+                RowICON(Pin1Row + PinNumber - 1).Image = ICEditor.GetRowIcon(Pin, 32)
             Else
-                Dim RowIndex As Integer = 32 + Pin1Row + ((Chip.Pins.Length) - PinNumber)
-                Pin.Row = 63 - Pin1Row - ((Chip.Pins.Length) - PinNumber)
-                Project.RowBPins(RowIndex - 32) = Pin
-                ROWALabel(RowIndex - 32).Text = Pin.Text.Replace("~", String.Empty) 'B
-                RowAICON(RowIndex - 32).Image = ICEditor.GetRowIcon(Pin, 32) 'B
+                'Dim RowIndex As Integer = 32 + Pin1Row + ((Chip.Pins.Length) - PinNumber)
+                'Pin.Row = 63 - Pin1Row - ((Chip.Pins.Length) - PinNumber)
+                'Project.RowBPins(RowIndex - 32) = Pin
+                'ROWLabel(RowIndex - 32).Text = Pin.Text.Replace("~", String.Empty) 'B
+                'RowICON(RowIndex - 32).Image = ICEditor.GetRowIcon(Pin, 32) 'B
             End If
         Next
 
@@ -1196,25 +1203,25 @@ Public Class frmTrace
 
     Private Sub Set_RowA_Label(ByVal item As Integer)
 
-        ROWALabel(item) = New Label()
-        ROWALabel(item).Width = 79
-        ROWALabel(item).Height = ROW_SCALE
-        ROWALabel(item).Left = BreadBoard.Left - 100
-        ROWALabel(item).Top = RowAICON(item).Top + 1
-        ROWALabel(item).Visible = True
-        ROWALabel(item).Text = String.Empty
-        ROWALabel(item).BorderStyle = BorderStyle.None
-        ROWALabel(item).TextAlign = ContentAlignment.MiddleRight
-        ROWALabel(item).BackColor = Color.Transparent
-        ROWALabel(item).ForeColor = Color.Black
-        ROWALabel(item).Tag = item
+        ROWLabel(item) = New Label()
+        ROWLabel(item).Width = 79
+        ROWLabel(item).Height = ROW_SCALE
+        ROWLabel(item).Left = BreadBoard.Left - 100
+        ROWLabel(item).Top = RowICON(item).Top + 1
+        ROWLabel(item).Visible = True
+        ROWLabel(item).Text = String.Empty
+        ROWLabel(item).BorderStyle = BorderStyle.None
+        ROWLabel(item).TextAlign = ContentAlignment.MiddleRight
+        ROWLabel(item).BackColor = Color.Transparent
+        ROWLabel(item).ForeColor = Color.Black
+        ROWLabel(item).Tag = item
 
-        AddHandler ROWALabel(item).DoubleClick, AddressOf ROWA_Click
-        AddHandler ROWALabel(item).MouseDown, AddressOf ROWA_MouseDown
-        AddHandler ROWALabel(item).Paint, AddressOf Row_Paint
+        AddHandler ROWLabel(item).DoubleClick, AddressOf ROW_Click
+        AddHandler ROWLabel(item).MouseDown, AddressOf ROW_MouseDown
+        AddHandler ROWLabel(item).Paint, AddressOf Row_Paint
 
-        panelBreadboard.Controls.Add(ROWALabel(item))
-        ROWALabel(item).BringToFront()
+        panelBreadboard.Controls.Add(ROWLabel(item))
+        ROWLabel(item).BringToFront()
 
     End Sub
     'Private Sub Set_ROWB_Label(ByVal item As Integer)
@@ -1244,10 +1251,10 @@ Public Class frmTrace
     Private Sub Set_Row_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer)
 
         For item As Integer = first To last
-            Me.Set_Row_ICON(Me.RowAICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
+            Me.Set_Row_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
 
             Me.Set_RowA_Label(item)
-            Me.Set_ROW_Pins(Project.RowAPins(item), ROWALabel(item).Text)
+            Me.Set_ROW_Pins(Project.RowPins(item), ROWLabel(item).Text)
         Next item
 
     End Sub
