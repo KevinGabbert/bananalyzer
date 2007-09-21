@@ -280,8 +280,8 @@ Public Class BananaCOM
         Dim bbrow As Integer = 0
         For row As Integer = 0 To 31
             bbrow = row
-            If Project.RowAPins(bbrow).Output Then
-                Dim RowBytes() As Byte = BitsToBytes(Project.RowAPins(bbrow).Bits)
+            If Project.RowPins(bbrow).Output Then
+                Dim RowBytes() As Byte = BitsToBytes(Project.RowPins(bbrow).Bits)
                 Dim bits_packet(RowBytes.Length + 3) As Byte
                 bits_packet(0) = &H7E    ' ~
                 bits_packet(1) = BB_SET_ROW_BITS
@@ -294,22 +294,22 @@ Public Class BananaCOM
                 RowBitsSet = False
             End If
         Next
-        For row As Integer = 0 To 31
-            bbrow = 63 - row
-            If Project.RowBPins(row).Output Then
-                Dim RowBytes() As Byte = BitsToBytes(Project.RowBPins(row).Bits)
-                Dim bits_packet(RowBytes.Length + 3) As Byte
-                bits_packet(0) = &H7E    ' ~
-                bits_packet(1) = BB_SET_ROW_BITS
-                bits_packet(2) = bbrow
-                bits_packet(3) = IIf(RowBytes.Length > 64, 64, RowBytes.Length)
-                For b As Integer = 0 To RowBytes.Length - 1
-                    If b < 64 Then bits_packet(b + 4) = RowBytes(b)
-                Next
-                COMPort.Write(bits_packet, 0, bits_packet.Length)
-                RowBitsSet = False
-            End If
-        Next
+        'For row As Integer = 0 To 31
+        '    bbrow = 63 - row
+        '    If Project.RowBPins(row).Output Then
+        '        Dim RowBytes() As Byte = BitsToBytes(Project.RowBPins(row).Bits)
+        '        Dim bits_packet(RowBytes.Length + 3) As Byte
+        '        bits_packet(0) = &H7E    ' ~
+        '        bits_packet(1) = BB_SET_ROW_BITS
+        '        bits_packet(2) = bbrow
+        '        bits_packet(3) = IIf(RowBytes.Length > 64, 64, RowBytes.Length)
+        '        For b As Integer = 0 To RowBytes.Length - 1
+        '            If b < 64 Then bits_packet(b + 4) = RowBytes(b)
+        '        Next
+        '        COMPort.Write(bits_packet, 0, bits_packet.Length)
+        '        RowBitsSet = False
+        '    End If
+        'Next
         RaiseEvent RowBitsSetComplete()
     End Sub
 
@@ -330,7 +330,7 @@ Public Class BananaCOM
         packet(4) = Project.ClockStart ' clock start state
         packet(5) = Project.ClockDelay ' clock start state
         Dim bbrow As Integer = 0
-        For row As Integer = 0 To 31
+        For row As Integer = 0 To 63 '31
             bbrow = row
             'Select Case row
             '    Case 0 To 7
@@ -342,7 +342,7 @@ Public Class BananaCOM
             '    Case 24 To 31
             '        bbrow = 31 - row + 24
             'End Select
-            Select Case Project.RowAPins(row).PinFunction
+            Select Case Project.RowPins(row).PinFunction
                 Case "Input"
                     rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
                     rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
@@ -384,58 +384,58 @@ Public Class BananaCOM
             'End If
             packet(bbrow + 6) = rows(bbrow)
         Next
-        For row As Integer = 0 To 31
-            ' Invert rows breadboard rows numbered like an IC
-            bbrow = 63 - row
-            Dim RowBPin As BBPin = Nothing
-            For Each Pin As BBPin In Project.RowBPins
-                If Pin.Row = bbrow Then
-                    RowBPin = Pin
-                    Select Case RowBPin.PinFunction
-                        Case "Input"
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case "High ( +5V )"
-                            rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case "Rising Clock"
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case "Falling Clock"
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK_INVERT)
-                        Case "Scripted Output"
-                            rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case "Low ( GND )"
-                            rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case "Analog Input"
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
-                            rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                        Case Else
-                            rows(bbrow) = rows(bbrow) Or (0 << ROW_ENABLE)
-                    End Select
-                    'If RowBPin.Output Then
-                    '    rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
-                    'Else
-                    '    rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
-                    'End If
-                    'If RowBPin.Clock Then
-                    '    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
-                    'End If
-                    'If RowBPin.InvertClock Then
-                    '    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK_INVERT)
-                    'End If
-                    'If RowBPin.Text.Length > 0 Then
-                    '    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
-                    'End If
-                    Exit For
-                End If
-            Next
-            packet(bbrow + 6) = rows(bbrow)
-        Next
+        'For row As Integer = 0 To 31
+        '    ' Invert rows breadboard rows numbered like an IC
+        '    bbrow = 63 - row
+        '    Dim RowBPin As BBPin = Nothing
+        '    For Each Pin As BBPin In Project.RowBPins
+        '        If Pin.Row = bbrow Then
+        '            RowBPin = Pin
+        '            Select Case RowBPin.PinFunction
+        '                Case "Input"
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case "High ( +5V )"
+        '                    rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case "Rising Clock"
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case "Falling Clock"
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK_INVERT)
+        '                Case "Scripted Output"
+        '                    rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case "Low ( GND )"
+        '                    rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case "Analog Input"
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
+        '                    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '                Case Else
+        '                    rows(bbrow) = rows(bbrow) Or (0 << ROW_ENABLE)
+        '            End Select
+        '            'If RowBPin.Output Then
+        '            '    rows(bbrow) = rows(bbrow) Or (0 << ROW_INPUT)
+        '            'Else
+        '            '    rows(bbrow) = rows(bbrow) Or (1 << ROW_INPUT)
+        '            'End If
+        '            'If RowBPin.Clock Then
+        '            '    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK)
+        '            'End If
+        '            'If RowBPin.InvertClock Then
+        '            '    rows(bbrow) = rows(bbrow) Or (1 << ROW_CLOCK_INVERT)
+        '            'End If
+        '            'If RowBPin.Text.Length > 0 Then
+        '            '    rows(bbrow) = rows(bbrow) Or (1 << ROW_ENABLE)
+        '            'End If
+        '            Exit For
+        '        End If
+        '    Next
+        'packet(bbrow + 6) = rows(bbrow)
+        'Next
         COMPort.Write(packet, 0, 70)
         Application.DoEvents()
         'SendRowBits(Project)
