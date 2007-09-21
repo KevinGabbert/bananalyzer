@@ -94,8 +94,8 @@ Public Class frmTrace
         Me.Set_BreadboardX() '
         Me.Set_TabsX() '
 
-        Me.Set_RowA_Control()
-        Me.Set_RowB_Control()
+        Me.Set_RowA_Control(0, 31)
+        Me.Set_RowB_Control(0, 31)
 
         ReDim Project.RowOUTPins(63)
 
@@ -1234,19 +1234,21 @@ Public Class frmTrace
 
     End Sub
 
-    Private Sub Set_RowA_Control()
+    Private Sub Set_RowA_Control(ByVal first As Integer, ByVal last As Integer)
 
-        For item As Integer = 0 To 31
+        For item As Integer = first To last
             Me.Set_Row_ICON(Me.RowAICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left - 21)
 
             Me.Set_RowA_Label(item)
             Me.Set_ROW_Pins(Project.RowAPins(item), ROWALabel(item).Text)
+
+            'ROWALabel(item).Tag = item + 32
         Next item
 
     End Sub
-    Private Sub Set_RowB_Control()
+    Private Sub Set_RowB_Control(ByVal first As Integer, ByVal last As Integer)
 
-        For item As Integer = 0 To 31
+        For item As Integer = first To last
             Me.Set_Row_ICON(Me.RowBICON, item, item * 21 + BreadBoard.Top, BreadBoard.Left + BreadBoard.Width)
 
             Me.Set_ROWB_Label(item)
@@ -1260,7 +1262,7 @@ Public Class frmTrace
 
     Private Sub Set_ROW_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
 
-        If BBPin Is Nothing Then BBPin = New BBPin
+        If (BBPin Is Nothing) Then BBPin = New BBPin
         BBPin.Text = pinText
 
     End Sub
