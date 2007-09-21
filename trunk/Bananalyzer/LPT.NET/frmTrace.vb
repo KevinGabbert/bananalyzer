@@ -93,14 +93,14 @@ Public Class frmTrace
         Me.Set_BreadboardX() '
         Me.Set_TabsX() '
 
-        Me.Set_Row_Control(0, 31, BreadBoard.Left - ROW_SCALE)
-        Me.Set_Row_Control(32, 63, BreadBoard.Left + BreadBoard.Width)
+        Me.Set_Row_Control(0, 31, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
+        Me.Set_Row_Control(32, 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
 
         ReDim Project.RowOUTPins(63)
 
         Me.Set_RowOut_Control()
 
-        PanelTimer.Left = ROWLabel(0).Left + ROWLabel(0).Width + 1  'B!
+        PanelTimer.Left = ROWLabel(0 + 31).Left + ROWLabel(0 + 31).Width + 1  'B!
 
         Me.Set_pb()
         Me.ClearTrace()
@@ -1200,13 +1200,12 @@ Public Class frmTrace
         icon(item).BringToFront()
 
     End Sub
-
-    Private Sub Set_RowA_Label(ByVal item As Integer)
+    Private Sub Set_Row_Label(ByVal item As Integer, ByVal left As Integer)
 
         ROWLabel(item) = New Label()
         ROWLabel(item).Width = 79
         ROWLabel(item).Height = ROW_SCALE
-        ROWLabel(item).Left = BreadBoard.Left - 100
+        ROWLabel(item).Left = left 'BreadBoard.Left - 100 'ROWBLabel(item).Left = RowBICON(item).Left + ROW_SCALE
         ROWLabel(item).Top = RowICON(item).Top + 1
         ROWLabel(item).Visible = True
         ROWLabel(item).Text = String.Empty
@@ -1224,6 +1223,22 @@ Public Class frmTrace
         ROWLabel(item).BringToFront()
 
     End Sub
+    Private Sub Set_Row_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
+
+        For item As Integer = first To last
+            Me.Set_Row_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
+            Me.Set_Row_Label(item, labelleft)
+            Me.Set_ROW_Pins(Project.RowPins(item), ROWLabel(item).Text)
+        Next item
+
+    End Sub
+    Private Sub Set_ROW_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
+
+        If (BBPin Is Nothing) Then BBPin = New BBPin
+        BBPin.Text = pinText
+
+    End Sub
+
     'Private Sub Set_ROWB_Label(ByVal item As Integer)
 
     '    ROWBLabel(item) = New Label()
@@ -1248,16 +1263,7 @@ Public Class frmTrace
 
     'End Sub
 
-    Private Sub Set_Row_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer)
 
-        For item As Integer = first To last
-            Me.Set_Row_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
-
-            Me.Set_RowA_Label(item)
-            Me.Set_ROW_Pins(Project.RowPins(item), ROWLabel(item).Text)
-        Next item
-
-    End Sub
     'Private Sub Set_RowB_Control(ByVal first As Integer, ByVal last As Integer)
 
     '    For item As Integer = first To last
@@ -1268,13 +1274,6 @@ Public Class frmTrace
     '    Next item
 
     'End Sub
-
-    Private Sub Set_ROW_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
-
-        If (BBPin Is Nothing) Then BBPin = New BBPin
-        BBPin.Text = pinText
-
-    End Sub
 
 #End Region
 
