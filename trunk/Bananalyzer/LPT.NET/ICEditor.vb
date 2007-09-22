@@ -512,10 +512,12 @@ Public Class ICEditor
             Case Else
                 ImageIndex = 8
         End Select
+
         Dim IconImage As Image = imgRowIcons.Images(ImageIndex)
         If Pin.Row >= FlipStartIndex AndAlso (ImageIndex < 2 Or ImageIndex = 5) Then
             IconImage.RotateFlip(RotateFlipType.RotateNoneFlipX)
         End If
+
         Return IconImage
     End Function
 
