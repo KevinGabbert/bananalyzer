@@ -4,7 +4,7 @@ Public Class BBProject
     Public ClockStart As Byte
     Public ClockDelay As Long
     Public RowPins(63) As BBPin
-    Public RowOUTPins(31) As BBPin
+    Public RowOUTPins(63) As BBPin
     Public DigitPins(15) As BBPin
     Public Chips(7) As IC
     Public TraceRangeLabels As TraceRangeLabel()
