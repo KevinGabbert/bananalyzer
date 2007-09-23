@@ -169,30 +169,6 @@ Public Class frmTrace
         ICEditor.DrawTrace(pbTrace, Project.RowPins(ROW.Tag))
 
     End Sub
-    'Private Sub ROWB_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-
-    '    Dim ROW As Label = CType(sender, Label)
-    '    ClearRowLabelSelect()
-    '    ROW.BorderStyle = BorderStyle.FixedSingle
-    '    DoDragDrop(sender, DragDropEffects.Copy)
-    '    pg.Visible = True
-    '    pg.BringToFront()
-    '    If e.Clicks = 2 Then
-    '        ROWB_Click(sender, e)
-    '    End If
-    '    'If Project.RowBPins(ROW.Tag).Text = "" Then Project.RowBPins(ROW.Tag).Text = ROW.Text
-    '    pg.SelectedObject = Project.RowBPins(ROW.Tag - 32)
-    '    ICEditor.ClearTrace(pbTrace)
-    '    ICEditor.DrawTrace(pbTrace, Project.RowBPins(ROW.Tag - 32))
-
-    'End Sub
-    'Private Sub ROWB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    '    Dim ROW As Label = CType(sender, Label)
-    '    ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
-    '    Project.RowBPins(ROW.Tag - 32).Text = ROW.Text
-
-    'End Sub
 
 #Region "ROWOUT"
 
@@ -214,6 +190,7 @@ Public Class frmTrace
 
     End Sub
     Private Sub ROWOUT_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
+
         'See if there is a TreeNode being dragged
         If e.Data.GetDataPresent("System.Windows.Forms.Label", True) Then
             'TreeNode found allow move effect
@@ -222,8 +199,10 @@ Public Class frmTrace
             'No TreeNode found, prevent move
             e.Effect = DragDropEffects.None
         End If
+
     End Sub
     Private Sub ROWOUT_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
+
         If e.Data.GetDataPresent("System.Windows.Forms.Label", True) Then
             pbSelected.Image = New Bitmap(pbSelected.Width, pbSelected.Height)
             Dim TargetROW As Label = CType(sender, Label)
@@ -252,6 +231,7 @@ Public Class frmTrace
                 End If
             End If
         End If
+
     End Sub
     Private Sub ROWOUT_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim ROW As Label = CType(sender, Label)
@@ -1169,10 +1149,10 @@ Public Class frmTrace
     Private Sub Create_RowField()
 
         'Left side
-        Me.Create_ChipRow_Control(0, 63, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
+        Me.Create_ChipRow_Control(0, 31, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
 
         'Right Side
-        Me.Create_ChipRow_Control(0, 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
+        Me.Create_ChipRow_Control(0, 31, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
 
         'Graph Panel
         Me.Set_RowOut_Control()
@@ -1230,6 +1210,7 @@ Public Class frmTrace
 
         panelBreadboard.Controls.Add(ROWLabel(item))
         ROWLabel(item).BringToFront()
+
     End Sub
     Private Sub Create_ChipRow_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
 
@@ -1330,18 +1311,12 @@ Public Class frmTrace
 
         Me.Remove_Chips()
 
-        For chipRow As Integer = 0 To (ROW_MAX - 1)
-
-            If (chipRow < 32) Then
-                Me.Set_ChipRow(chipRow, chipRow)
-                Me.Set_RowOUT(chipRow)
-            Else
-                Me.Set_ChipRow(chipRow, ROW_MAX - chipRow)
-                Me.Set_RowOUT(chipRow)
-            End If
-
+        For chipRow As Integer = 0 To ROW_MAX
+            Me.Set_ChipRow(chipRow, chipRow)
+            Me.Set_RowOUT(chipRow)
             Me.ClearChipArray(chipRow)
         Next
+
         ICCount = 0
 
     End Sub
@@ -1680,3 +1655,13 @@ Retry:
 #End Region
 
 End Class
+
+'If (chipRow < 32) Then
+'    Me.Set_ChipRow(chipRow, chipRow)
+'    Me.Set_RowOUT(chipRow)
+'Else
+
+'Me.Set_ChipRow(chipRow, ROW_MAX - chipRow)
+'Me.Set_RowOUT(chipRow)
+
+'End If
