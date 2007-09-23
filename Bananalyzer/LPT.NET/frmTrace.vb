@@ -29,7 +29,7 @@ Public Class frmTrace
 
     Private Project As New BananaBoard.BBProject
 
-    Private ChipROW_Label(ROW_MAX) As Label
+    Private ROWLabel(ROW_MAX) As Label
     Private RowICON(ROW_MAX) As PictureBox
 
     Private ROWOUTLabel(ROW_MAX) As Label
@@ -71,9 +71,7 @@ Public Class frmTrace
         Me.SetBreadboard()
         Me.SetTabs()
 
-
-
-        Create_RowField()
+        Me.Create_RowField()
 
         Me.Set_pb()
         Me.ClearTrace()
@@ -472,10 +470,10 @@ Public Class frmTrace
                 End Select
                 If (Pin.Row < 32) Then
                     RowICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
-                    ChipROW_Label(Pin.Row).Text = Pin.Text
+                    ROWLabel(Pin.Row).Text = Pin.Text
                 Else
                     RowICON(ROW_MAX - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32) 'B
-                    ChipROW_Label(ROW_MAX - Pin.Row).Text = Pin.Text  'B
+                    ROWLabel(ROW_MAX - Pin.Row).Text = Pin.Text  'B
                 End If
             Case "BBPot"
 
@@ -825,9 +823,9 @@ Public Class frmTrace
                 Project.RowPins(y).Row = y
 
 
-                ChipROW_Label(y).Text = Project.RowPins(y).Text.Replace("~", "")
+                ROWLabel(y).Text = Project.RowPins(y).Text.Replace("~", "")
                 RowLabelTT = New ToolTip
-                RowLabelTT.SetToolTip(ChipROW_Label(y), "BananaRow " & y.ToString) 'A
+                RowLabelTT.SetToolTip(ROWLabel(y), "BananaRow " & y.ToString) 'A
 
                 If y < 32 Then
                     RowICON(y).Image = ICEditor.GetRowIcon(Project.RowPins(y), 32)
@@ -1069,7 +1067,7 @@ Public Class frmTrace
             If PinNumber <= (Chip.Pins.Length) / 2 Then
                 Pin.Row = Pin1Row + PinNumber - 1
                 Project.RowPins(Pin1Row + PinNumber - 1) = Pin
-                ChipROW_Label(Pin1Row + PinNumber - 1).Text = Pin.Text.Replace("~", String.Empty)
+                ROWLabel(Pin1Row + PinNumber - 1).Text = Pin.Text.Replace("~", String.Empty)
                 RowICON(Pin1Row + PinNumber - 1).Image = ICEditor.GetRowIcon(Pin, 32)
             Else
                 'Dim RowIndex As Integer = 32 + Pin1Row + ((Chip.Pins.Length) - PinNumber)
@@ -1168,7 +1166,32 @@ Public Class frmTrace
 
 #Region "Set Rows"
 
-    Private Sub Set_ChipRow_ICON(ByVal icon() As PictureBox, ByVal item As Integer, ByVal top As Integer, ByVal left As Integer)
+    Private Sub Create_RowField()
+
+        'Left side
+        Me.Create_ChipRow_Control(0, 63, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
+
+        'Right Side
+        Me.Create_ChipRow_Control(0, 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
+
+        'Graph Panel
+        Me.Set_RowOut_Control()
+
+        PanelTimer.Left = ROWLabel(0 + 31).Left + ROWLabel(0 + 31).Width + 1
+
+    End Sub
+
+    Private Sub Set_ChipRow(ByVal item As Integer, ByVal row As Integer)
+
+        Project.RowPins(item) = New BBPin
+        Project.RowPins(item).Row = row
+        Project.RowPins(item).Text = String.Empty
+
+        RowICON(item).Image = ICEditor.imgRowIcons.Images(8)
+        ROWLabel(item).Text = String.Empty
+
+    End Sub
+    Private Sub Create_ChipRow_ICON(ByVal icon() As PictureBox, ByVal item As Integer, ByVal top As Integer, ByVal left As Integer)
 
         icon(item) = New PictureBox()
         icon(item).Width = ROW_SCALE
@@ -1186,44 +1209,53 @@ Public Class frmTrace
         icon(item).BringToFront()
 
     End Sub
-    Private Sub Set_ChipRow_Label(ByVal item As Integer, ByVal left As Integer)
+    Private Sub Create_ChipRow_Label(ByVal item As Integer, ByVal left As Integer)
 
-        ChipROW_Label(item) = New Label()
-        ChipROW_Label(item).Width = 79
-        ChipROW_Label(item).Height = ROW_SCALE
-        ChipROW_Label(item).Left = left
-        ChipROW_Label(item).Top = RowICON(item).Top + 1
-        ChipROW_Label(item).Visible = True
-        ChipROW_Label(item).Text = String.Empty
-        ChipROW_Label(item).BorderStyle = BorderStyle.None
-        ChipROW_Label(item).TextAlign = ContentAlignment.MiddleRight
-        ChipROW_Label(item).BackColor = Color.Transparent
-        ChipROW_Label(item).ForeColor = Color.Black
-        ChipROW_Label(item).Tag = item
+        ROWLabel(item) = New Label()
+        ROWLabel(item).Width = 79
+        ROWLabel(item).Height = ROW_SCALE
+        ROWLabel(item).Left = left
+        ROWLabel(item).Top = RowICON(item).Top + 1
+        ROWLabel(item).Visible = True
+        ROWLabel(item).Text = String.Empty
+        ROWLabel(item).BorderStyle = BorderStyle.None
+        ROWLabel(item).TextAlign = ContentAlignment.MiddleRight
+        ROWLabel(item).BackColor = Color.Transparent
+        ROWLabel(item).ForeColor = Color.Black
+        ROWLabel(item).Tag = item
 
-        AddHandler ChipROW_Label(item).DoubleClick, AddressOf ROW_Click
-        AddHandler ChipROW_Label(item).MouseDown, AddressOf ROW_MouseDown
-        AddHandler ChipROW_Label(item).Paint, AddressOf Row_Paint
+        AddHandler ROWLabel(item).DoubleClick, AddressOf ROW_Click
+        AddHandler ROWLabel(item).MouseDown, AddressOf ROW_MouseDown
+        AddHandler ROWLabel(item).Paint, AddressOf Row_Paint
 
-        panelBreadboard.Controls.Add(ChipROW_Label(item))
-        ChipROW_Label(item).BringToFront()
+        panelBreadboard.Controls.Add(ROWLabel(item))
+        ROWLabel(item).BringToFront()
     End Sub
-    Private Sub Set_ChipRow_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
+    Private Sub Create_ChipRow_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
 
         For item As Integer = first To last
-            Me.Set_ChipRow_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
-            Me.Set_ChipRow_Label(item, labelleft)
-            Me.Set_ChipRow_Pins(Project.RowPins(item), ChipROW_Label(item).Text)
+            Me.Create_ChipRow_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
+            Me.Create_ChipRow_Label(item, labelleft)
+            Me.Create_ChipRow_Pins(Project.RowPins(item), ROWLabel(item).Text)
         Next item
 
     End Sub
-    Private Sub Set_ChipRow_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
+    Private Sub Create_ChipRow_Pins(ByRef BBPin As BBPin, ByRef pinText As String)
 
         If (BBPin Is Nothing) Then BBPin = New BBPin
         BBPin.Text = pinText
 
     End Sub
 
+    Private Sub Set_RowOUT(ByVal item As Integer)
+
+        Project.RowOUTPins(item) = New BBPin
+        Project.RowOUTPins(item).Text = String.Empty
+
+        RowOutICON(item).Image = ICEditor.imgRowIcons.Images(8)
+        ROWOUTLabel(item).Text = String.Empty
+
+    End Sub
     Private Sub Set_RowOut_Control()
 
         For currentRow As Integer = 0 To ROW_MAX
@@ -1291,6 +1323,28 @@ Public Class frmTrace
     End Sub
 
 #End Region
+
+    Private Sub New_Project()
+
+        Project = New BBProject
+
+        Me.Remove_Chips()
+
+        For chipRow As Integer = 0 To (ROW_MAX - 1)
+
+            If (chipRow < 32) Then
+                Me.Set_ChipRow(chipRow, chipRow)
+                Me.Set_RowOUT(chipRow)
+            Else
+                Me.Set_ChipRow(chipRow, ROW_MAX - chipRow)
+                Me.Set_RowOUT(chipRow)
+            End If
+
+            Me.ClearChipArray(chipRow)
+        Next
+        ICCount = 0
+
+    End Sub
 
     Private Sub LoadChips()
         If Not IO.File.Exists(ChipsFileName) Then
@@ -1562,53 +1616,15 @@ Retry:
         PanelTimer.Controls.Add(Timer1)
         Timer1.BringToFront()
     End Sub
-    Private Sub New_Project()
 
-        Project = New BBProject
-
-        Me.Remove_Chips()
-
-        For y As Integer = 0 To (ROW_MAX - 1)
-
-            If (y > 31) Then
-                Project.RowPins(y) = New BBPin
-                Project.RowPins(y).Row = ROW_MAX - y
-                Project.RowPins(y).Text = String.Empty
-
-                Project.RowOUTPins(y - 31) = New BBPin
-                Project.RowOUTPins(y - 31).Text = String.Empty
-
-                RowICON(y - 31).Image = ICEditor.imgRowIcons.Images(8)
-                ChipROW_Label(y - 31).Text = String.Empty
-
-                RowOutICON(y - 31).Image = ICEditor.imgRowIcons.Images(8)
-                ROWOUTLabel(y - 31).Text = String.Empty
-            Else
-                Project.RowPins(y) = New BBPin
-                Project.RowPins(y).Row = y
-                Project.RowPins(y).Text = String.Empty
-
-                Project.RowOUTPins(y) = New BBPin
-                Project.RowOUTPins(y).Text = String.Empty
-
-                RowICON(y).Image = ICEditor.imgRowIcons.Images(8)
-                ChipROW_Label(y).Text = String.Empty
-
-                RowOutICON(y).Image = ICEditor.imgRowIcons.Images(8)
-                ROWOUTLabel(y).Text = String.Empty
-            End If
-
-            Me.ChipSize(y)
-        Next
-        ICCount = 0
-
-    End Sub
     Private Sub Remove_Chips()
+
         For y As Integer = 0 To 7
             panelBreadboard.Controls.Remove(Chips(y))
         Next
+
     End Sub
-    Private Sub ChipSize(ByVal y As Integer)
+    Private Sub ClearChipArray(ByVal y As Integer)
 
         If (y < 8) Then
             If (Chips(y) IsNot Nothing) Then Chips(y) = Nothing
@@ -1620,19 +1636,7 @@ Retry:
         End If
 
     End Sub
-    Private Sub Create_RowField()
 
-        'Left side
-        Me.Set_ChipRow_Control(0, 31, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
-
-        'Right Side
-        Me.Set_ChipRow_Control(0, 31, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
-
-        'Graph Panel
-        Me.Set_RowOut_Control()
-
-        PanelTimer.Left = ChipROW_Label(0 + 31).Left + ChipROW_Label(0 + 31).Width + 1
-    End Sub
     Private Sub Add_Chip(ByVal Index As Integer, ByVal Pins As Integer, ByVal Row As Integer)
 
         Chips(Index) = New PictureBox()
