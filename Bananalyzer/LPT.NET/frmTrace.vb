@@ -1152,7 +1152,7 @@ Public Class frmTrace
         Me.Create_ChipRow_Control(0, 31, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
 
         'Right Side
-        Me.Create_ChipRow_Control(0, 31, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
+        Me.Create_ChipRow_Control(32, 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
 
         'Graph Panel
         Me.Set_RowOut_Control()
@@ -1195,7 +1195,7 @@ Public Class frmTrace
         ROWLabel(item).Width = 79
         ROWLabel(item).Height = ROW_SCALE
         ROWLabel(item).Left = left
-        ROWLabel(item).Top = RowICON(item).Top + 1
+        ROWLabel(item).Top = BreadBoard.Top + (IIf(item < 32, item, 63 - item) * ROW_SCALE) ' RowICON(item).Top + 1
         ROWLabel(item).Visible = True
         ROWLabel(item).Text = String.Empty
         ROWLabel(item).BorderStyle = BorderStyle.None
@@ -1215,7 +1215,7 @@ Public Class frmTrace
     Private Sub Create_ChipRow_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
 
         For item As Integer = first To last
-            Me.Create_ChipRow_ICON(Me.RowICON, item, item * ROW_SCALE + BreadBoard.Top, iconLeft)
+            Me.Create_ChipRow_ICON(Me.RowICON, item, BreadBoard.Top + (IIf(item < 32, item, 63 - item) * ROW_SCALE), iconLeft)
             Me.Create_ChipRow_Label(item, labelleft)
             Me.Create_ChipRow_Pins(Project.RowPins(item), ROWLabel(item).Text)
         Next item
