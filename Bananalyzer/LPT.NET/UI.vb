@@ -1,5 +1,6 @@
 Imports System.Windows.Forms
 Imports BananaBoard
+Imports System.Collections.Generic
 
 Public Class UI
 
@@ -21,45 +22,55 @@ Public Class RowOUT
 #Region "Constants"
 
     Const ROW_SCALE As Integer = 21
-    Const ROW_MAX As Integer = 63
+    Const ROW_MAX As Integer = 64
 
 #End Region
 #Region "Properties"
 
-    Protected _label As Label()
-    Protected _icon As PictureBox()
-    Protected _pins(63) As BBPin
+    Protected _label As New List(Of Label)
+    Protected _icon As New List(Of PictureBox)
+    Protected _pins As New List(Of BBPin)
 
-    Public Property Label() As Label()
+    Public Property Label() As List(Of Label)
         Get
             Return _label
         End Get
-        Set(ByVal value As Label())
+        Set(ByVal value As List(Of Label))
             _label = value
         End Set
     End Property
-    Public Property Icon() As PictureBox()
+    Public Property Icon() As List(Of PictureBox)
         Get
             Return _icon
         End Get
-        Set(ByVal value As PictureBox())
+        Set(ByVal value As List(Of PictureBox))
             _icon = value
         End Set
     End Property
-    Public Property Pins() As BBPin()
+    Public Property Pins() As List(Of BBPin)
         Get
             Return _pins
         End Get
-        Set(ByVal value As BBPin())
+        Set(ByVal value As List(Of BBPin))
             _pins = value
         End Set
     End Property
 
 #End Region
 
+    Sub New()
+
+        For i As Integer = 1 To ROW_MAX
+            _label.Add(New Label)
+            _icon.Add(New PictureBox)
+            _pins.Add(New BBPin)
+        Next
+
+    End Sub
+
 #Region "Functions"
 
-    Public Sub Create_Label(ByRef currentRow As Integer, ByVal label() As Label)
+    Public Sub Create_Label(ByRef currentRow As Integer, ByVal label As List(Of Label))
 
         Me.Label = label
 
@@ -84,7 +95,7 @@ Public Class RowOUT
         End If
 
     End Sub
-    Public Sub Create_Icon(ByRef currentRow As Integer, ByVal picturebox() As PictureBox)
+    Public Sub Create_Icon(ByRef currentRow As Integer, ByVal picturebox As List(Of PictureBox))
 
         picturebox(currentRow) = New PictureBox
         picturebox(currentRow).Width = ROW_SCALE
@@ -93,7 +104,7 @@ Public Class RowOUT
         picturebox(currentRow).Left = 0
         picturebox(currentRow).SizeMode = PictureBoxSizeMode.CenterImage
         picturebox(currentRow).BorderStyle = BorderStyle.None
-        'RowOutICON(currentRow).BackColor = Color.Red ' Testing KRG
+
         picturebox(currentRow).Visible = True
 
         If (currentRow < (ROW_MAX / 2)) Then
