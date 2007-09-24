@@ -493,6 +493,7 @@ Public Class ICEditor
     End Sub
 
     Public Function GetRowIcon(ByVal Pin As BananaBoard.BBPin, ByVal FlipStartIndex As Integer) As Image
+
         Dim ImageIndex As Integer = 0
         Select Case Pin.PinFunction
             Case "Input"
@@ -519,9 +520,11 @@ Public Class ICEditor
         End If
 
         Return IconImage
+
     End Function
 
     Private Sub DrawICNumber(ByVal IC As PictureBox, ByVal PartNo As String, ByVal PartDesc As String)
+
         Dim g As Graphics = Drawing.Graphics.FromImage(IC.Image)
         Dim F As New Font("Arial", 10, FontStyle.Regular)
         g.RotateTransform(270)
@@ -538,9 +541,11 @@ Public Class ICEditor
         g.DrawString(PartDesc, Me.Font, Brushes.WhiteSmoke, 0, 5, string_format)
 
         IC.Refresh()
+
     End Sub
 
     Public Sub ClearTrace(ByVal pb As PictureBox)
+
         Dim y As Integer = 0
         Dim x As Integer
         Dim g As Graphics
@@ -551,8 +556,10 @@ Public Class ICEditor
             g.DrawLine(Pens.LightGray, x, 0, x, pb.Height)
             g.DrawString(x / 20, Me.Font, Brushes.Black, x, 17)
         Next
+
     End Sub
     Public Sub DrawTrace(ByRef pb As PictureBox, ByVal Pin As BananaBoard.BBPin)
+
         Dim y As Integer = 0
         Dim x As Integer
         Dim scale As Integer = IIf(Pin.Clock, 10, 20)
@@ -597,6 +604,7 @@ Public Class ICEditor
             End If
         Next
         pb.Invalidate()
+
     End Sub
 
     Private Function GetSelectedLabel() As Label
