@@ -107,6 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UI.vb" />
     <Content Include="icon-banana.ico" />
     <Content Include="LPT.ico" />
     <Content Include="My Project\Application.myapp">
