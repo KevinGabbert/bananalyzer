@@ -32,8 +32,8 @@ Public Class frmTrace
     Private ROWLabel(ROW_MAX) As Label
     Private RowICON(ROW_MAX) As PictureBox
 
-    Private ROWOUTLabel(ROW_MAX) As Label
-    Private RowOutICON(ROW_MAX) As PictureBox
+    Private local_ROWOUTLabel(ROW_MAX) As Label
+    Private local_RowOutICON(ROW_MAX) As PictureBox
 
     Private DigitSourceLabel(31) As Label
 
@@ -73,6 +73,8 @@ Public Class frmTrace
 
         Me.Create_RowField()
 
+        PanelTimer.Left = ROWLabel(0 + 31).Left + ROWLabel(0 + 31).Width + 1
+
         Me.Set_pb()
         Me.ClearTrace()
         Me.Set_DigitSourceLabel()
@@ -97,8 +99,8 @@ Public Class frmTrace
             e.Graphics.DrawLine(Pens.LightGray, 0, c.Height - 1, c.Width, c.Height - 1)
             If sender.GetType Is GetType(Label) Then
                 Dim RowLabel As Label = CType(sender, Label)
-                If Project.RowOUTPins(RowLabel.Tag) IsNot Nothing AndAlso Project.RowOUTPins(RowLabel.Tag).Text.Contains("~") Then
-                    Dim Text As String = Project.RowOUTPins(RowLabel.Tag).Text
+                If Project.RowOUT.Pins(RowLabel.Tag) IsNot Nothing AndAlso Project.RowOUT.Pins(RowLabel.Tag).Text.Contains("~") Then
+                    Dim Text As String = Project.RowOUT.Pins(RowLabel.Tag).Text
                     Dim Left As Integer = e.Graphics.MeasureString(Text.Substring(0, Text.IndexOf("~")), RowLabel.Font, 79).Width + 1
                     Text = Text.Substring(Text.IndexOf("~") + 1)
                     Dim TextWidth As Integer = e.Graphics.MeasureString(Text, RowLabel.Font, 79).Width - 5
@@ -139,7 +141,7 @@ Public Class frmTrace
 
         Dim ROW As Label = CType(sender, Label)
         ROW.Text = InputBox("Row Label", "BananaBoard", ROW.Text)
-        Project.RowOUTPins(ROW.Tag).Text = ROW.Text
+        Project.RowOUT.Pins(ROW.Tag).Text = ROW.Text
 
     End Sub
     Private Sub ROW_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -180,12 +182,12 @@ Public Class frmTrace
         If ROW.Text.Length = 0 Then
             ROW.BackColor = Color.White
             ROW.ForeColor = Color.Blue
-            RowOutICON(ROW.Tag).Image = ICEditor.imgRowIcons.Images(0)
+            local_RowOutICON(ROW.Tag).Image = ICEditor.imgRowIcons.Images(0)
         End If
 
         'If Project.RowOUTPins.Length < 64 Then ReDim Preserve Project.RowOUTPins(ROW_MAX)
-        If Project.RowOUTPins(ROW.Tag) Is Nothing Then Project.RowOUTPins(ROW.Tag) = New BBPin
-        Project.RowOUTPins(ROW.Tag).Text = ROW.Text
+        If Project.RowOUT.Pins(ROW.Tag) Is Nothing Then Project.RowOUT.Pins(ROW.Tag) = New BBPin
+        Project.RowOUT.Pins(ROW.Tag).Text = ROW.Text
         ROW.Text = ROW.Text.Replace("~", String.Empty)
 
     End Sub
@@ -206,21 +208,21 @@ Public Class frmTrace
         If e.Data.GetDataPresent("System.Windows.Forms.Label", True) Then
             pbSelected.Image = New Bitmap(pbSelected.Width, pbSelected.Height)
             Dim TargetROW As Label = CType(sender, Label)
-            Dim TargetIcon As PictureBox = RowOutICON(TargetROW.Tag)
+            Dim TargetIcon As PictureBox = local_RowOutICON(TargetROW.Tag)
             Dim DroppedROW As Label = CType(e.Data.GetData("System.Windows.Forms.Label"), Label)
             TargetROW.Text = DroppedROW.Text
-            Project.RowOUTPins(TargetROW.Tag).Text = DroppedROW.Text
-            Project.RowOUTPins(TargetROW.Tag).Row = DroppedROW.Tag
+            Project.RowOUT.Pins(TargetROW.Tag).Text = DroppedROW.Text
+            Project.RowOUT.Pins(TargetROW.Tag).Row = DroppedROW.Tag
             If DroppedROW.Parent.Name = "PanelTrace" Then
-                Project.RowOUTPins(TargetROW.Tag) = Project.RowOUTPins(DroppedROW.Tag)
-                TargetIcon.Image = RowOutICON(DroppedROW.Tag).Image
+                Project.RowOUT.Pins(TargetROW.Tag) = Project.RowOUT.Pins(DroppedROW.Tag)
+                TargetIcon.Image = local_RowOutICON(DroppedROW.Tag).Image
                 DroppedROW.Text = ""
-                RowOutICON(DroppedROW.Tag).Image = ICEditor.imgRowIcons.Images(8)
-                Project.RowOUTPins(DroppedROW.Tag) = New BBPin
+                local_RowOutICON(DroppedROW.Tag).Image = ICEditor.imgRowIcons.Images(8)
+                Project.RowOUT.Pins(DroppedROW.Tag) = New BBPin
             Else
                 If DroppedROW.TextAlign = ContentAlignment.MiddleRight Then
                     ' left side A
-                    Project.RowOUTPins(TargetROW.Tag) = Project.RowPins(DroppedROW.Tag)
+                    Project.RowOUT.Pins(TargetROW.Tag) = Project.RowPins(DroppedROW.Tag)
                     'Project.RowOUTPins(TargetROW.Tag).ParentPin = Project.RowAPins(DroppedROW.Tag)
                     TargetIcon.Image = ICEditor.GetRowIcon(Project.RowPins(DroppedROW.Tag), 999)
                 Else
@@ -234,6 +236,7 @@ Public Class frmTrace
 
     End Sub
     Private Sub ROWOUT_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+
         Dim ROW As Label = CType(sender, Label)
         'ClearRowLabelSelect()
         'ROW.BorderStyle = BorderStyle.FixedSingle
@@ -245,6 +248,7 @@ Public Class frmTrace
         'pg.SelectedObject = Project.RowBPins(ROW.Tag - 32)
         'ICEditor.ClearTrace(pbTrace)
         'ICEditor.DrawTrace(pbTrace, Project.RowBPins(ROW.Tag - 32))
+
     End Sub
 
 #End Region
@@ -448,11 +452,11 @@ Public Class frmTrace
                         ICEditor.ClearTrace(pbTrace)
                         'DrawEditTrace(Pin)
                 End Select
-                If (Pin.Row < 32) Then
-                    RowICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32)
+                If (Pin.Row < (ROW_MAX / 2)) Then
+                    RowICON(Pin.Row).Image = ICEditor.GetRowIcon(Pin, (ROW_MAX / 2))
                     ROWLabel(Pin.Row).Text = Pin.Text
                 Else
-                    RowICON(ROW_MAX - Pin.Row).Image = ICEditor.GetRowIcon(Pin, 32) 'B
+                    RowICON(ROW_MAX - Pin.Row).Image = ICEditor.GetRowIcon(Pin, (ROW_MAX / 2)) 'B
                     ROWLabel(ROW_MAX - Pin.Row).Text = Pin.Text  'B
                 End If
             Case "BBPot"
@@ -483,8 +487,8 @@ Public Class frmTrace
         ClearTrace()
         Dim g As Graphics = System.Drawing.Graphics.FromImage(pbSelected.Image)
         Dim RowOUTIndex As Integer = 0
-        For RowOUTIndex = 0 To Project.RowOUTPins.Length - 1
-            Dim bbrow As BBPin = Project.RowOUTPins(RowOUTIndex)
+        For RowOUTIndex = 0 To Project.RowOUT.Pins.Length - 1
+            Dim bbrow As BBPin = Project.RowOUT.Pins(RowOUTIndex)
             If bbrow IsNot Nothing Then
                 Select Case bbrow.Row
                     Case 0 To 7 ' left side
@@ -611,9 +615,9 @@ Public Class frmTrace
                         For sample As Integer = 0 To 511
                             x = sample * 10
                             Dim sample_base As Integer = (sample * 8) + 4
-                            Dim sample_value As Boolean = (Samples(sample_base) And (1 << (bbrow.Row - 32)))
+                            Dim sample_value As Boolean = (Samples(sample_base) And (1 << (bbrow.Row - (ROW_MAX / 2))))
                             Dim last_sample_value As Boolean = False
-                            If sample_base > 7 Then last_sample_value = (Samples(sample_base - 8) And (1 << (bbrow.Row - 32)))
+                            If sample_base > 7 Then last_sample_value = (Samples(sample_base - 8) And (1 << (bbrow.Row - (ROW_MAX / 2))))
                             If last_sample_value Then
                                 If sample_value Then
                                     ' Hold High
@@ -797,29 +801,17 @@ Public Class frmTrace
                     Project.RowPins(y) = New BBPin()
                 End If
 
-                'If Project.RowBPins(y) Is Nothing Then
-                '    Project.RowBPins(y) = New BBPin()
-                'End If
                 Project.RowPins(y).Row = y
-
 
                 ROWLabel(y).Text = Project.RowPins(y).Text.Replace("~", "")
                 RowLabelTT = New ToolTip
                 RowLabelTT.SetToolTip(ROWLabel(y), "BananaRow " & y.ToString) 'A
 
-                If y < 32 Then
-                    RowICON(y).Image = ICEditor.GetRowIcon(Project.RowPins(y), 32)
+                If y < (ROW_MAX / 2) Then
+                    RowICON(y).Image = ICEditor.GetRowIcon(Project.RowPins(y), (ROW_MAX / 2))
                 Else
-                    RowICON(y - 32).Image = ICEditor.GetRowIcon(Project.RowPins(y), 32)
+                    RowICON(y - (ROW_MAX / 2)).Image = ICEditor.GetRowIcon(Project.RowPins(y), (ROW_MAX / 2))
                 End If
-
-
-
-                'Project.RowBPins(y).Row = ROW_MAX - y
-                'ROWLabel(y + 32).Text = Project.RowBPins(y).Text.Replace("~", "") 'B
-                'RowLabelTT = New ToolTip
-                'RowLabelTT.SetToolTip(ROWLabel(y + 32), "BananaRow B" & y.ToString) 'B
-                'RowICON(y + 32).Image = ICEditor.GetRowIcon(Project.RowBPins(y), 32) 'B
 
             Next y
 
@@ -833,15 +825,15 @@ Public Class frmTrace
 
             'If Project.RowOUTPins.Length < 64 Then ReDim Preserve Project.RowOUTPins(ROW_MAX)
             For y As Integer = 0 To ROW_MAX
-                If Project.RowOUTPins(y) IsNot Nothing AndAlso Project.RowOUTPins(y).Text.Length > 0 Then
-                    ROWOUTLabel(y).Text = Project.RowOUTPins(y).Text.Replace("~", "")
+                If Project.RowOUT.Pins(y) IsNot Nothing AndAlso Project.RowOUT.Pins(y).Text.Length > 0 Then
+                    local_ROWOUTLabel(y).Text = Project.RowOUT.Pins(y).Text.Replace("~", "")
                     Dim tt As New ToolTip()
-                    tt.SetToolTip(RowOutICON(y), Project.RowOUTPins(y).PinFunction)
+                    tt.SetToolTip(local_RowOutICON(y), Project.RowOUT.Pins(y).PinFunction)
                 Else
-                    Project.RowOUTPins(y) = New BBPin
-                    ROWOUTLabel(y).Text = ""
+                    Project.RowOUT.Pins(y) = New BBPin
+                    local_ROWOUTLabel(y).Text = ""
                 End If
-                RowOutICON(y).Image = ICEditor.GetRowIcon(Project.RowOUTPins(y), 999)
+                local_RowOutICON(y).Image = ICEditor.GetRowIcon(Project.RowOUT.Pins(y), 999)
             Next y
             st.Close()
 
@@ -917,27 +909,27 @@ Public Class frmTrace
 
     Private Sub PrintDocument1_PrintPage(ByVal sender As Object, ByVal e As System.Drawing.Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
 
-        Dim BaseFont As Font = ROWOUTLabel(0).Font
+        Dim BaseFont As Font = local_ROWOUTLabel(0).Font
         Dim Title As String = ""
         If Title.Length = 0 Then Title = InputBox("Printout Title?", "BananaPrint", ProjectName)
         ProjectName = Title
         Dim LabelTop As Integer = 1
-        Dim LabelLeft As Integer = RowOutICON(0).Width
-        Dim TraceLeft As Integer = RowOutICON(0).Width + ROWOUTLabel(0).Width + 1
+        Dim LabelLeft As Integer = local_RowOutICON(0).Width
+        Dim TraceLeft As Integer = local_RowOutICON(0).Width + local_ROWOUTLabel(0).Width + 1
         Dim TraceTop As Integer = 0
         Dim TopMargin As Integer = 50
         Dim RowCount As Integer = (e.PageBounds.Height - 50) / ROW_SCALE
         Dim l As Label = Nothing
 
         For i As Integer = 0 To RowCount - 1
-            l = ROWOUTLabel(i)
+            l = local_ROWOUTLabel(i)
             LabelTop = (i * ROW_SCALE) + 4 + TopMargin
-            e.Graphics.DrawImage(RowOutICON(i).Image, 0, i * ROW_SCALE + TopMargin)
+            e.Graphics.DrawImage(local_RowOutICON(i).Image, 0, i * ROW_SCALE + TopMargin)
             e.Graphics.DrawLine(Pens.LightGray, 0, i * ROW_SCALE + TopMargin - 1, TraceLeft, i * ROW_SCALE + TopMargin - 1)
             e.Graphics.DrawString(l.Text, BaseFont, Brushes.Black, LabelLeft, LabelTop)
 
-            If Project.RowOUTPins.Length > i AndAlso Project.RowOUTPins(i).Text.Contains("~") Then
-                Dim Text As String = Project.RowOUTPins(i).Text
+            If Project.RowOUT.Pins.Length > i AndAlso Project.RowOUT.Pins(i).Text.Contains("~") Then
+                Dim Text As String = Project.RowOUT.Pins(i).Text
                 Dim Left As Integer = e.Graphics.MeasureString(Text.Substring(0, Text.IndexOf("~")), l.Font, 79).Width + 1
                 Text = Text.Substring(Text.IndexOf("~") + 1)
                 Dim TextWidth As Integer = e.Graphics.MeasureString(Text, BaseFont, 79).Width - 5
@@ -1048,7 +1040,7 @@ Public Class frmTrace
                 Pin.Row = Pin1Row + PinNumber - 1
                 Project.RowPins(Pin1Row + PinNumber - 1) = Pin
                 ROWLabel(Pin1Row + PinNumber - 1).Text = Pin.Text.Replace("~", String.Empty)
-                RowICON(Pin1Row + PinNumber - 1).Image = ICEditor.GetRowIcon(Pin, 32)
+                RowICON(Pin1Row + PinNumber - 1).Image = ICEditor.GetRowIcon(Pin, (ROW_MAX / 2))
             Else
                 'Dim RowIndex As Integer = 32 + Pin1Row + ((Chip.Pins.Length) - PinNumber)
                 'Pin.Row = ROW_MAX - Pin1Row - ((Chip.Pins.Length) - PinNumber)
@@ -1152,12 +1144,10 @@ Public Class frmTrace
         Me.Create_ChipRow_Control(0, 31, BreadBoard.Left - ROW_SCALE, BreadBoard.Left - 100)
 
         'Right Side
-        Me.Create_ChipRow_Control(32, 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
+        Me.Create_ChipRow_Control((ROW_MAX / 2), 63, BreadBoard.Left + BreadBoard.Width, BreadBoard.Left + BreadBoard.Width + ROW_SCALE)
 
         'Graph Panel
-        Me.Set_RowOut_Control()
-
-        PanelTimer.Left = ROWLabel(0 + 31).Left + ROWLabel(0 + 31).Width + 1
+        Me.Create_RowOut_Control()
 
     End Sub
 
@@ -1182,7 +1172,7 @@ Public Class frmTrace
         icon(item).SizeMode = PictureBoxSizeMode.CenterImage
         icon(item).BorderStyle = BorderStyle.None
         icon(item).Visible = True
-        icon(item).Tag = item '+ 32
+        icon(item).Tag = item
 
         AddHandler icon(item).Paint, AddressOf RowOut_Paint
         panelBreadboard.Controls.Add(icon(item))
@@ -1195,7 +1185,7 @@ Public Class frmTrace
         ROWLabel(item).Width = 79
         ROWLabel(item).Height = ROW_SCALE
         ROWLabel(item).Left = left
-        ROWLabel(item).Top = BreadBoard.Top + (IIf(item < 32, item, 63 - item) * ROW_SCALE) ' RowICON(item).Top + 1
+        ROWLabel(item).Top = BreadBoard.Top + (IIf(item < (ROW_MAX / 2), item, ROW_MAX - item) * ROW_SCALE) ' RowICON(item).Top + 1
         ROWLabel(item).Visible = True
         ROWLabel(item).Text = String.Empty
         ROWLabel(item).BorderStyle = BorderStyle.None
@@ -1215,7 +1205,7 @@ Public Class frmTrace
     Private Sub Create_ChipRow_Control(ByVal first As Integer, ByVal last As Integer, ByVal iconLeft As Integer, ByVal labelleft As Integer)
 
         For item As Integer = first To last
-            Me.Create_ChipRow_ICON(Me.RowICON, item, BreadBoard.Top + (IIf(item < 32, item, 63 - item) * ROW_SCALE), iconLeft)
+            Me.Create_ChipRow_ICON(Me.RowICON, item, BreadBoard.Top + (IIf(item < (ROW_MAX / 2), item, ROW_MAX - item) * ROW_SCALE), iconLeft)
             Me.Create_ChipRow_Label(item, labelleft)
             Me.Create_ChipRow_Pins(Project.RowPins(item), ROWLabel(item).Text)
         Next item
@@ -1228,80 +1218,41 @@ Public Class frmTrace
 
     End Sub
 
-    Private Sub Set_RowOUT(ByVal item As Integer)
+    Private Sub Create_RowOUT(ByVal item As Integer)
 
-        Project.RowOUTPins(item) = New BBPin
-        Project.RowOUTPins(item).Text = String.Empty
+        Project.RowOUT = New RowOUT()
+        Project.RowOUT.Pins(item) = New BBPin
+        Project.RowOUT.Pins(item).Text = String.Empty
 
-        RowOutICON(item).Image = ICEditor.imgRowIcons.Images(8)
-        ROWOUTLabel(item).Text = String.Empty
+        local_RowOutICON(item).Image = ICEditor.imgRowIcons.Images(8)
+        local_ROWOUTLabel(item).Text = String.Empty
 
     End Sub
-    Private Sub Set_RowOut_Control()
+    Private Sub Create_RowOut_Control()
+
+        'Form Object - Pass Form to this object.
 
         For currentRow As Integer = 0 To ROW_MAX
 
-            Me.Set_RowOUT_Icon(currentRow)
-            Me.Set_RowOUT_Label(currentRow)
+            Project.RowOUT.Create_Icon(currentRow, local_RowOutICON)
+            AddHandler local_RowOutICON(currentRow).Paint, AddressOf RowOut_Paint
+
+            PanelTrace.Controls.Add(local_RowOutICON(currentRow))
+
+            Project.RowOUT.Create_Label(currentRow, local_ROWOUTLabel)
+            AddHandler local_ROWOUTLabel(currentRow).Paint, AddressOf RowOut_Paint
+            AddHandler local_ROWOUTLabel(currentRow).DoubleClick, AddressOf ROWOUT_Click
+            AddHandler local_ROWOUTLabel(currentRow).MouseDown, AddressOf ROWOUT_MouseDown
+            AddHandler local_ROWOUTLabel(currentRow).DragOver, AddressOf ROWOUT_DragOver
+            AddHandler local_ROWOUTLabel(currentRow).DragDrop, AddressOf ROWOUT_DragDrop
+
+            PanelTrace.Controls.Add(local_ROWOUTLabel(currentRow))
+            Project.RowOUT.Label(currentRow).BringToFront()
 
         Next currentRow
 
     End Sub
-    Private Sub Set_RowOUT_Label(ByRef currentRow As Integer)
 
-        ROWOUTLabel(currentRow) = New Label()
-        ROWOUTLabel(currentRow).Width = 79
-        ROWOUTLabel(currentRow).Left = ROW_SCALE
-        ROWOUTLabel(currentRow).Height = ROW_SCALE
-        ROWOUTLabel(currentRow).Top = currentRow * ROW_SCALE
-        ROWOUTLabel(currentRow).Visible = True
-        ROWOUTLabel(currentRow).Text = "USER " & currentRow + 1
-        ROWOUTLabel(currentRow).BorderStyle = BorderStyle.None
-        ROWOUTLabel(currentRow).TextAlign = ContentAlignment.MiddleLeft
-        ROWOUTLabel(currentRow).BackColor = Color.White 'Color.Red ' KRG
-        ROWOUTLabel(currentRow).ForeColor = Color.Blue
-        ROWOUTLabel(currentRow).Tag = currentRow
-        ROWOUTLabel(currentRow).AllowDrop = True
-
-        If (currentRow < 32) Then
-            ROWOUTLabel(currentRow).Tag = currentRow
-        Else
-            ROWOUTLabel(currentRow).Tag = currentRow - 32
-        End If
-
-        AddHandler ROWOUTLabel(currentRow).Paint, AddressOf RowOut_Paint
-        AddHandler ROWOUTLabel(currentRow).DoubleClick, AddressOf ROWOUT_Click
-        AddHandler ROWOUTLabel(currentRow).MouseDown, AddressOf ROWOUT_MouseDown
-        AddHandler ROWOUTLabel(currentRow).DragOver, AddressOf ROWOUT_DragOver
-        AddHandler ROWOUTLabel(currentRow).DragDrop, AddressOf ROWOUT_DragDrop
-
-        PanelTrace.Controls.Add(ROWOUTLabel(currentRow))
-        ROWOUTLabel(currentRow).BringToFront()
-
-    End Sub
-    Private Sub Set_RowOUT_Icon(ByRef currentRow As Integer)
-
-        RowOutICON(currentRow) = New PictureBox
-        RowOutICON(currentRow).Width = ROW_SCALE
-        RowOutICON(currentRow).Height = ROW_SCALE
-        RowOutICON(currentRow).Top = currentRow * ROW_SCALE
-        RowOutICON(currentRow).Left = 0
-        RowOutICON(currentRow).SizeMode = PictureBoxSizeMode.CenterImage
-        RowOutICON(currentRow).BorderStyle = BorderStyle.None
-        'RowOutICON(currentRow).BackColor = Color.Red ' Testing KRG
-        RowOutICON(currentRow).Visible = True
-
-        If (currentRow < 32) Then
-            RowOutICON(currentRow).Tag = currentRow
-        Else
-            RowOutICON(currentRow).Tag = currentRow - 32
-        End If
-
-        AddHandler RowOutICON(currentRow).Paint, AddressOf RowOut_Paint
-
-        PanelTrace.Controls.Add(RowOutICON(currentRow))
-
-    End Sub
 
 #End Region
 
@@ -1313,7 +1264,7 @@ Public Class frmTrace
 
         For chipRow As Integer = 0 To ROW_MAX
             Me.Set_ChipRow(chipRow, chipRow)
-            Me.Set_RowOUT(chipRow)
+            Me.Create_RowOUT(chipRow)
             Me.ClearChipArray(chipRow)
         Next
 
@@ -1475,9 +1426,9 @@ Retry:
 
         Dim Data As UInt16 = Inp(&H378)
         HexLine &= Data.ToString("X2") & " "
-        ASCLine &= IIf(Data > 32 And Data < 127, Chr(Data), ".")
+        ASCLine &= IIf(Data > (ROW_MAX / 2) And Data < 127, Chr(Data), ".")
         BytesWide += 1
-        If BytesWide = 32 Then
+        If BytesWide = (ROW_MAX / 2) Then
             DebugPrint((Address - 15).ToString("X4") & ": " & HexLine & " " & ASCLine)
             BytesWide = 0
             HexLine = ""
@@ -1535,11 +1486,13 @@ Retry:
     End Sub
 
     Private Sub Set_pb()
-        pbSelected.Left = ROWOUTLabel(0).Width + ROW_SCALE
+
+        pbSelected.Left = local_ROWOUTLabel(0).Width + ROW_SCALE
         pbSelected.Top = 0
         pbSelected.Width = 5120
         pbSelected.Height = ROW_SCALE * 64
         pbSelected.BorderStyle = BorderStyle.None
+
     End Sub
     Private Sub Set_pgX()
 
