@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\TestHarness\TestHarness.sln" total="1" failures="0" not-run="0" date="2007-09-24" time="02:57:43">
+  <environment nunit-version="2.4.1.0" clr-version="2.0.50727.832" os-version="Microsoft Windows NT 5.0.2195 Service Pack 4" platform="Win32NT" cwd="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\TestHarness" machine-name="VCREATEDEV2" user="Virtual20001" user-domain="VCREATEDEV2" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\TestHarness\TestHarness.sln" success="True" time="0.240" asserts="0">
+    <results>
+      <test-suite name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\TestHarness\bin\Debug\TestHarness.dll" success="True" time="0.230" asserts="0">
+        <results>
+          <test-suite name="TestHarness" success="True" time="0.230" asserts="0">
+            <results>
+              <test-suite name="UI" description="Test Harness for UI. Get TestDriven .net to debug functions in Visual Studio" success="True" time="0.200" asserts="0">
+                <results>
+                  <test-case name="TestHarness.UI.NUnit_Works" description="Verify NUnit Works" executed="True" success="True" time="0.180" asserts="1" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\LPT.NET\.\bin\BananaBoard128.exe" success="True" time="0.000" asserts="0">
+        <results />
+      </test-suite>
+      <test-suite name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\BananaPot\bin\Debug\BananaBoard.dll" success="True" time="0.000" asserts="0">
+        <results />
+      </test-suite>
+      <test-suite name="C:\Documents and Settings\Virtual20001\Desktop\Bananalyzer\ATMega128\bin\Debug\ATMega128.dll" success="True" time="0.000" asserts="0">
+        <results />
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
